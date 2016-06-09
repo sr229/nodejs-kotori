@@ -4,7 +4,7 @@ var Discord = require("discord.js");
 var bot = new Discord.Client();
 
 //add your bot accounts token bellow
-bot.loginWithToken("bot token. get one from http://discordapp.com/developer");
+bot.loginWithToken("bot token. get one from http://discordapp.com/developers");
 
 //logs that the bot is logging and is ready in a amount of miliseconds
 console.log("Logging in...");
@@ -52,5 +52,12 @@ bot.on("message", function (message) {
         sendMessage.content();
         console.log("say message by "  +  message.author.username)
     }
+    {
+        //a experimental command for Catricius because why not.
+        if (input === "!catricius")
+        bot.reply(message, "Dan Dan is not fully implemented yet, silly!");
+        console.log(message.author.username + " tried running Dan Dan.")
+    }
+
 
 });
