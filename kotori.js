@@ -58,6 +58,8 @@ bot.on("message", function (message) {
         bot.reply(message, "Dan Dan is not fully implemented yet, silly!");
         console.log(message.author.username + " tried running Dan Dan.")
     }
-
+{
+    
+}
 
 });
