@@ -26,7 +26,7 @@ try {
 var bot = new Discord.Client();
 
 //add your bot accounts token bellow
-bot.loginWithToken("MTg5OTY1OTQ4MDY3Nzc0NDY0.Cjq0Dw.s3MHjmTrssGZM4C6bwi_0gniXRk");
+bot.loginWithToken("bot Token. Grab one at http://discordapp.com/developers");
 
 //logs that the bot is logging and is ready in a amount of miliseconds
 console.log("Logging in...");
