@@ -653,7 +653,7 @@ bot.on("message", function (msg) {
             //help is special since it iterates over the other commands
 			bot.sendMessage(msg.author,"Available Commands:", function(){
 				for(var cmd in commands) {
-					var info = "kotori." + cmd;
+					var info = "!" + cmd;
 					var usage = commands[cmd].usage;
 					if(usage){
 						info += " " + usage;
