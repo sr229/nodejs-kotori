@@ -168,43 +168,6 @@ var commands = {
         description: "bot says message with text to speech",
         process: function(bot,msg,suffix){ bot.sendMessage(msg.channel,suffix,{tts:true});}
     },
-    "pullanddeploy": {
-        description: "bot will perform a git pull master and restart with the new code",
-        process: function(bot,msg,suffix) {
-            bot.sendMessage(msg.channel,"fetching updates...",function(error,sentMsg){
-                console.log("updating...");
-	            var spawn = require('child_process').spawn;
-                var log = function(err,stdout,stderr){
-                    if(stdout){console.log(stdout);}
-                    if(stderr){console.log(stderr);}
-                };
-                var fetch = spawn('git', ['fetch']);
-                fetch.stdout.on('data',function(data){
-                    console.log(data.toString());
-                });
-                fetch.on("close",function(code){
-                    var reset = spawn('git', ['reset','--hard','origin/master']);
-                    reset.stdout.on('data',function(data){
-                        console.log(data.toString());
-                    });
-                    reset.on("close",function(code){
-                        var npm = spawn('npm', ['install']);
-                        npm.stdout.on('data',function(data){
-                            console.log(data.toString());
-                        });
-                        npm.on("close",function(code){
-                            console.log("goodbye");
-                            bot.sendMessage(msg.channel,"brb!",function(){
-                                bot.logout(function(){
-                                    process.exit();
-                                });
-                            });
-                        });
-                    });
-                });
-            });
-        }
-    },
     "meme": {
         usage: 'meme "top text" "bottom text"',
         process: function(bot,msg,suffix) {
@@ -227,20 +190,6 @@ var commands = {
                 str += m + "\n"
             }
             bot.sendMessage(msg.channel,str);
-        }
-    },
-    "version": {
-        description: "returns the git commit this bot is running",
-        process: function(bot,msg,suffix) {
-            var commit = require('child_process').spawn('git', ['log','-n','1']);
-            commit.stdout.on('data', function(data) {
-                bot.sendMessage(msg.channel,data);
-            });
-            commit.on('close',function(code) {
-                if( code != 0){
-                    bot.sendMessage(msg.channel,"failed checking git version!");
-                }
-            });
         }
     },
     "log": {
@@ -276,21 +225,7 @@ var commands = {
             });
         }
     },
-    "join-server": {
-        usage: "<invite>",
-        description: "joins the server it's invited to",
-        process: function(bot,msg,suffix) {
-            console.log(bot.joinServer(suffix,function(error,server) {
-                console.log("callback: " + arguments);
-                if(error){
-                    bot.sendMessage(msg.channel,"failed to join: " + error);
-                } else {
-                    console.log("Joined server " + server);
-                    bot.sendMessage(msg.channel,"Successfully joined " + server);
-                }
-            }));
-        }
-    },
+  
     "create": {
         usage: "<channel name>",
         description: "creates a new text channel with the given name.",
