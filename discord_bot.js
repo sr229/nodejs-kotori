@@ -26,18 +26,13 @@ try {
 var bot = new Discord.Client();
 
 //add your bot accounts token bellow
-bot.loginWithToken("bot Token. Grab one at http://discordapp.com/developers");
+bot.loginWithToken("Bot Token. Get one at http://discordapp.com/developers");
 
 //logs that the bot is logging and is ready in a amount of miliseconds
 console.log("Logging in...");
 console.log("Ready to begin");
 console.log("in " + bot.readyTime)
 
-//for welcoming people to the server
-bot.on('serverNewMember', (server, user) => {
-    bot.sendMessage(server.channels.get('name', 'general'), "Welcome to the server" + user);
-    console.log("New Member Joined the server: " + user.username + " " + user);
-});
 
 // Load custom permissions
 var Permissions = {};
@@ -629,7 +624,7 @@ bot.on("disconnected", function () {
 
 bot.on("message", function (msg) {
 	//check if message is a command
-	if(msg.author.id != bot.user.id && (msg.content[0] === '!' || msg.content.indexOf(bot.user.mention()) == 0)){
+	if(msg.author.id != bot.user.id && (msg.content[0] === '>' || msg.content.indexOf(bot.user.mention()) == 0)){
         console.log("treating " + msg.content + " from " + msg.author + " as command");
 		var cmdTxt = msg.content.split(" ")[0].substring(1);
         var suffix = msg.content.substring(cmdTxt.length+2);//add one for the ! and one for the space
@@ -653,7 +648,7 @@ bot.on("message", function (msg) {
             //help is special since it iterates over the other commands
 			bot.sendMessage(msg.author,"Available Commands:", function(){
 				for(var cmd in commands) {
-					var info = "!" + cmd;
+					var info = ">" + cmd;
 					var usage = commands[cmd].usage;
 					if(usage){
 						info += " " + usage;
