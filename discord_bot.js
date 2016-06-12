@@ -146,6 +146,7 @@ var commands = {
         description: "sets bot status to online",
         process: function(bot,msg){ bot.setStatusOnline();}
     },
+    //youtube is broken, still finding a workaround.
     "youtube": {
         usage: "<video tags>",
         description: "gets youtube video matching tags",
@@ -158,11 +159,7 @@ var commands = {
         description: "bot says message",
         process: function(bot,msg,suffix){ bot.sendMessage(msg.channel,suffix);}
     },
-	"announce": {
-        usage: "<message>",
-        description: "bot says message with text to speech",
-        process: function(bot,msg,suffix){ bot.sendMessage(msg.channel,suffix,{tts:true});}
-    },
+
     "meme": {
         usage: 'meme "top text" "bottom text"',
         process: function(bot,msg,suffix) {
@@ -339,7 +336,7 @@ var commands = {
 			var args = suffix.split(" ");
 			var name = args.shift();
 			if(!name){
-				bot.sendMessage(msg.channel,"!alias " + this.usage + "\n" + this.description);
+				bot.sendMessage(msg.channel,">alias " + this.usage + "\n" + this.description);
 			} else if(commands[name] || name === "help"){
 				bot.sendMessage(msg.channel,"overwriting commands with aliases is not allowed!");
 			} else {
