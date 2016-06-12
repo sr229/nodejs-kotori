@@ -35,6 +35,8 @@ console.log("in " + bot.readyTime)
 
 
 // Load custom permissions
+//its required to have permissions.json if you want the bot to
+//be able to run Eval.
 var Permissions = {};
 try{
 	Permissions = require("./permissions.json");
@@ -83,6 +85,7 @@ var giphy_config = {
 
 
 //https://api.imgflip.com/popular_meme_ids
+//this doesn't work currently. Fix soon?
 var meme = {
 	"brace": 61546,
 	"mostinteresting": 61532,
