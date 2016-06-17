@@ -380,9 +380,7 @@ var commands = {
 		process: function(bot,msg,suffix) {
 			if(Permissions.checkPermission(msg.author,"eval")){
 				bot.sendMessage(msg.channel, eval(suffix,bot));
-			} else {
-				bot.sendMessage(msg.channel, msg.author + " doesn't have permission to execute eval!");
-			}
+	
 		}
 	},
 	"topic": {
