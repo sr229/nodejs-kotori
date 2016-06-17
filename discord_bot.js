@@ -35,6 +35,8 @@ console.log("in " + bot.readyTime)
 
 
 // Load custom permissions
+//its required to have permissions.json if you want the bot to
+//be able to run Eval.
 var Permissions = {};
 try{
 	Permissions = require("./permissions.json");
@@ -83,6 +85,7 @@ var giphy_config = {
 
 
 //https://api.imgflip.com/popular_meme_ids
+//this doesn't work currently. Fix soon?
 var meme = {
 	"brace": 61546,
 	"mostinteresting": 61532,
@@ -146,6 +149,7 @@ var commands = {
         description: "sets bot status to online",
         process: function(bot,msg){ bot.setStatusOnline();}
     },
+    //youtube is broken, still finding a workaround.
     "youtube": {
         usage: "<video tags>",
         description: "gets youtube video matching tags",
@@ -158,11 +162,7 @@ var commands = {
         description: "bot says message",
         process: function(bot,msg,suffix){ bot.sendMessage(msg.channel,suffix);}
     },
-	"announce": {
-        usage: "<message>",
-        description: "bot says message with text to speech",
-        process: function(bot,msg,suffix){ bot.sendMessage(msg.channel,suffix,{tts:true});}
-    },
+
     "meme": {
         usage: 'meme "top text" "bottom text"',
         process: function(bot,msg,suffix) {
@@ -339,7 +339,7 @@ var commands = {
 			var args = suffix.split(" ");
 			var name = args.shift();
 			if(!name){
-				bot.sendMessage(msg.channel,"!alias " + this.usage + "\n" + this.description);
+				bot.sendMessage(msg.channel,">alias " + this.usage + "\n" + this.description);
 			} else if(commands[name] || name === "help"){
 				bot.sendMessage(msg.channel,"overwriting commands with aliases is not allowed!");
 			} else {
@@ -377,12 +377,10 @@ var commands = {
 	"eval": {
 		usage: "<command>",
 		description: 'Executes arbitrary javascript in the bot process. User must have "eval" permission',
+		//cleared out the eval perm required code for now.
 		process: function(bot,msg,suffix) {
-			if(Permissions.checkPermission(msg.author,"eval")){
-				bot.sendMessage(msg.channel, eval(suffix,bot));
-			} else {
-				bot.sendMessage(msg.channel, msg.author + " doesn't have permission to execute eval!");
-			}
+			bot.sendMessage(msg.channel, eval(suffix,bot)); 
+			
 		}
 	},
 	"topic": {
