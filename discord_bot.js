@@ -377,10 +377,9 @@ var commands = {
 	"eval": {
 		usage: "<command>",
 		description: 'Executes arbitrary javascript in the bot process. User must have "eval" permission',
+		//cleared out the eval perm required code for now.
 		process: function(bot,msg,suffix) {
-			if(Permissions.checkPermission(msg.author,"eval")){
-				bot.sendMessage(msg.channel, eval(suffix,bot));
-	
+			
 		}
 	},
 	"topic": {
