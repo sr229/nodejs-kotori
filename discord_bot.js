@@ -3,7 +3,7 @@ try {
 } catch (e){
 	console.log(e.stack);
 	console.log(process.version);
-	console.log("Please run npm install and ensure it passes with no errors!");
+	console.log("Error executing! Are you sure you have the following dependecies?");
 	process.exit();
 }
 
@@ -11,14 +11,14 @@ try {
 	var yt = require("./youtube_plugin");
 	var youtube_plugin = new yt();
 } catch(e){
-	console.log("couldn't load youtube plugin!\n"+e.stack);
+	console.log("couldn't load youtube plugin!\n");
 }
 
 try {
 	var wa = require("./wolfram_plugin");
 	var wolfram_plugin = new wa();
 } catch(e){
-	console.log("couldn't load wolfram plugin!\n"+e.stack);
+	console.log("couldn't load wolfram plugin!\n");
 }
 
 //Bot token goes to 'token' (duh).
