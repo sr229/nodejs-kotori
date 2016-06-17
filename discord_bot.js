@@ -1,4 +1,5 @@
 try {
+	var Discord = require("discord.io");
 	var Discord = require("discord.js");
 } catch (e){
 	console.log(e.stack);
@@ -21,12 +22,15 @@ try {
 	console.log("couldn't load wolfram plugin!\n"+e.stack);
 }
 
+//Bot token goes to 'token' (duh).
+var bot = new Discord.Client({
+    token: "",
+    autorun: true
+});
 
-//makes it easier to program
-var bot = new Discord.Client();
-
-//add your bot accounts token bellow
-bot.loginWithToken("Bot Token. Get one at http://discordapp.com/developers");
+bot.on('ready', function() {
+    console.log(bot.username + " - (" + bot.id + ")");
+});
 
 //logs that the bot is logging and is ready in a amount of miliseconds
 console.log("Logging in...");
