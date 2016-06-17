@@ -24,7 +24,7 @@ try {
 
 //Bot token goes to 'token' (duh).
 var bot = new Discord.Client({
-    token: "",
+    token: "get one at http://discordapp.com/developers",
     autorun: true
 });
 
