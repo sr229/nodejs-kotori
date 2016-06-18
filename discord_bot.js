@@ -19,6 +19,7 @@ var request = require("request"),
     messagebox;
 
 try {
+<<<<<<< HEAD
     Discord = require("discord.js");
 } catch (e) {
     console.log(e.stack);
@@ -43,6 +44,40 @@ try {
 
 var bot = new Discord.Client();
 
+=======
+	var Discord = require("discord.io");
+} catch (e){
+	console.log(e.stack);
+	console.log(process.version);
+	console.log("Error executing! Are you sure you have the following dependecies?");
+	process.exit();
+}
+
+try {
+	var yt = require("./youtube_plugin");
+	var youtube_plugin = new yt();
+} catch(e){
+	console.log("couldn't load youtube plugin!\n");
+}
+
+try {
+	var wa = require("./wolfram_plugin");
+	var wolfram_plugin = new wa();
+} catch(e){
+	console.log("couldn't load wolfram plugin!\n");
+}
+
+//Bot token goes to 'token' (duh).
+var bot = new Discord.Client({
+    token: "get one at http://discordapp.com/developers",
+    autorun: true
+    [shard : [0, 2]
+});
+
+bot.on('ready', function() {
+    console.log(bot.username + " - (" + bot.id + ")");
+});
+>>>>>>> master
 
 //logs that the bot is logging and is ready in a amount of miliseconds
 console.log(`Logging in...\nReady to begin\nin ${bot.readyTime}`);
@@ -378,6 +413,7 @@ var commands = {
 
         }
     },
+<<<<<<< HEAD
     "topic": {
         usage: "[topic]",
         description: 'Sets the topic for the channel. No topic removes the topic.',
@@ -386,6 +422,67 @@ var commands = {
         }
     },
     "roll": {
+=======
+	"alias": {
+		usage: "<name> <actual command>",
+		description: "Creates command aliases. Useful for making simple commands on the fly",
+		process: function(bot,msg,suffix) {
+			var args = suffix.split(" ");
+			var name = args.shift();
+			if(!name){
+				bot.sendMessage(msg.channel,">alias " + this.usage + "\n" + this.description);
+			} else if(commands[name] || name === "help"){
+				bot.sendMessage(msg.channel,"overwriting commands with aliases is not allowed!");
+			} else {
+				var command = args.shift();
+				aliases[name] = [command, args.join(" ")];
+				//now save the new alias
+				require("fs").writeFile("./alias.json",JSON.stringify(aliases,null,2), null);
+				bot.sendMessage(msg.channel,"created alias " + name);
+			}
+		}
+	},
+	"userid": {
+		usage: "[user to get id of]",
+		description: "Returns the unique id of a user. This is useful for permissions.",
+		process: function(bot,msg,suffix) {
+			if(suffix){
+				var users = msg.channel.server.members.getAll("username",suffix);
+				if(users.length == 1){
+					bot.sendMessage(msg.channel, "The id of " + users[0] + " is " + users[0].id)
+				} else if(users.length > 1){
+					var response = "multiple users found:";
+					for(var i=0;i<users.length;i++){
+						var user = users[i];
+						response += "\nThe id of " + user + " is " + user.id;
+					}
+					bot.sendMessage(msg.channel,response);
+				} else {
+					bot.sendMessage(msg.channel,"No user " + suffix + " found!");
+				}
+			} else {
+				bot.sendMessage(msg.channel, "The id of " + msg.author + " is " + msg.author.id);
+			}
+		}
+	},
+	"eval": {
+		usage: "<command>",
+		description: 'Executes arbitrary javascript in the bot process. User must have "eval" permission',
+		//cleared out the eval perm required code for now.
+		process: function(bot,msg,suffix) {
+		bot.sendMessage(msg.channel, eval(suffix,bot));  
+			
+		}
+	},
+	"topic": {
+		usage: "[topic]",
+		description: 'Sets the topic for the channel. No topic removes the topic.',
+		process: function(bot,msg,suffix) {
+			bot.setChannelTopic(msg.channel,suffix);
+		}
+	},
+	"roll": {
+>>>>>>> master
         usage: "[# of sides] or [# of dice]d[# of sides]( + [# of dice]d[# of sides] + ...)",
         description: "roll one die with x sides, or multiple dice using d20 syntax. Default value is 10",
         process: function (bot, msg, suffix) {
@@ -620,6 +717,7 @@ bot.on("message", msg => {
         var cmd = commands[cmdTxt];
         if (cmdTxt === "help") {
             //help is special since it iterates over the other commands
+<<<<<<< HEAD
             bot.sendMessage(msg.author, "Available Commands:", () => {
                 var info = `>${cmd}`;
                 for (var cmd in commands) {
@@ -639,6 +737,59 @@ bot.on("message", msg => {
             }
         } else {
             if (Config.respondToInvalid) bot.sendMessage(msg.channel, `Invalid command ${cmdTxt}`);
+=======
+                        var len = 0;
+                        var counter = 0;
+                        var info = "";
+                        for (var cmd in commands) {
+                        	len++;
+                        }
+			bot.sendMessage(msg.author,"Available Commands:", function(){
+				for(var cmd in commands) {
+					counter++;
+					info += ">" + cmd;
+					var usage = commands[cmd].usage;
+					if(usage){
+						info += " " + usage;
+					}
+					var description = commands[cmd].description;
+					if(description){
+						info += "\n\t" + description + "\n\n";
+					}
+					
+					if (counter == 75) {
+						len = len - counter;
+						counter = 0;
+						if ((info.length > 1900) && (info.length < 2000)) {
+					                bot.sendMessage(msg.author,info);
+						} else {
+							// Do smth
+						}
+					} else if ((len < 75) && (counter == len)) {
+						bot.sendMessage(msg.author.info);
+					}
+				}
+			});
+        }
+		else if(cmd) {
+			try{
+				cmd.process(bot,msg,suffix);
+			} catch(e){
+				if(Config.debug){
+					bot.sendMessage(msg.channel, "command " + cmdTxt + " failed :(\n" + e.stack);
+				}
+			}
+		} else {
+			if(Config.respondToInvalid){
+				bot.sendMessage(msg.channel, "Invalid command " + cmdTxt);
+			}
+		}
+	} else {
+		//message isn't a command or is from us
+        //drop our own messages to prevent feedback loops
+        if(msg.author == bot.user){
+            return;
+>>>>>>> master
         }
     } else {
         //message isn't a command or is from us
