@@ -25,7 +25,7 @@ try {
 var bot = new Discord.Client({
     token: "get one at http://discordapp.com/developers",
     autorun: true
-    shard: [0, 2] 
+    [shard : [0, 2]
 });
 
 bot.on('ready', function() {
