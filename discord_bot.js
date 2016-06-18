@@ -643,20 +643,42 @@ var Discord, yt, youtube_plugin, wa, wolfram_plugin;
 617             cmdTxt = alias[0]; 
 618             suffix = `${alias[1]} ${suffix}`; 
 619         } 
-620         var cmd = commands[cmdTxt]; 
-621         if (cmdTxt === "help") { 
-622             //help is special since it iterates over the other commands 
-623             bot.sendMessage(msg.author, "Available Commands:", () => { 
-624                 var info = `>${cmd}`; 
-625                 for (var cmd in commands) { 
-626                     var usage = commands[cmd].usage; 
-627                     if (usage) { 
-628                         info += ` ${usage}`; 
-629                     } 
-630                     info += "\n"; 
-631                 } 
-632                 bot.sendMessage(msg.author, info); 
-633             }); 
+621       	var cmd = commands[cmdTxt]; 
+645         if(cmdTxt === "help"){ 
+646             //help is special since it iterates over the other commands 
+647                         var len = 0; 
+648                         var counter = 0; 
+649                         var info = ""; 
+650                         for (var cmd in commands) { 
+651                         	len++; 
+652                         } 
+653 			bot.sendMessage(msg.author,"Available Commands:", function(){ 
+654 				for(var cmd in commands) { 
+655 					counter++; 
+656 					info += ">" + cmd; 
+657 					var usage = commands[cmd].usage; 
+658 					if(usage){ 
+659 						info += " " + usage; 
+660 					} 
+661 					var description = commands[cmd].description; 
+662 					if(description){ 
+663 						info += "\n\t" + description + "\n\n"; 
+664 					} 
+665 					 
+666 					if (counter == 75) { 
+667 						len = len - counter; 
+668 						counter = 0; 
+669 						if ((info.length > 1900) && (info.length < 2000)) { 
+670 					                bot.sendMessage(msg.author,info); 
+671 						} else { 
+672 							// Do smth 
+673 						} 
+674 					} else if ((len < 75) && (counter == len)) { 
+675 						bot.sendMessage(msg.author.info); 
+676 					} 
+677 				} 
+678 			}); 
+679         } 
 634         } else if (cmd) { 
 635             try { 
 636                 cmd.process(bot, msg, suffix); 
