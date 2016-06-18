@@ -1,9 +1,9 @@
 try {
-	var Discord = require("discord.js");
+	var Discord = require("discord.io");
 } catch (e){
 	console.log(e.stack);
 	console.log(process.version);
-	console.log("Please run npm install and ensure it passes with no errors!");
+	console.log("Error executing! Are you sure you have the following dependecies?");
 	process.exit();
 }
 
@@ -11,22 +11,26 @@ try {
 	var yt = require("./youtube_plugin");
 	var youtube_plugin = new yt();
 } catch(e){
-	console.log("couldn't load youtube plugin!\n"+e.stack);
+	console.log("couldn't load youtube plugin!\n");
 }
 
 try {
 	var wa = require("./wolfram_plugin");
 	var wolfram_plugin = new wa();
 } catch(e){
-	console.log("couldn't load wolfram plugin!\n"+e.stack);
+	console.log("couldn't load wolfram plugin!\n");
 }
 
+//Bot token goes to 'token' (duh).
+var bot = new Discord.Client({
+    token: "get one at http://discordapp.com/developers",
+    autorun: true
+    [shard : [0, 2]
+});
 
-//makes it easier to program
-var bot = new Discord.Client();
-
-//add your bot accounts token bellow
-bot.loginWithToken("Bot Token. Get one at http://discordapp.com/developers");
+bot.on('ready', function() {
+    console.log(bot.username + " - (" + bot.id + ")");
+});
 
 //logs that the bot is logging and is ready in a amount of miliseconds
 console.log("Logging in...");
@@ -379,7 +383,7 @@ var commands = {
 		description: 'Executes arbitrary javascript in the bot process. User must have "eval" permission',
 		//cleared out the eval perm required code for now.
 		process: function(bot,msg,suffix) {
-			bot.sendMessage(msg.channel, eval(suffix,bot)); 
+		bot.sendMessage(msg.channel, eval(suffix,bot));  
 			
 		}
 	},
