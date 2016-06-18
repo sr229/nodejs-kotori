@@ -644,18 +644,36 @@ bot.on("message", function (msg) {
 		var cmd = commands[cmdTxt];
         if(cmdTxt === "help"){
             //help is special since it iterates over the other commands
+                        var len = 0;
+                        var counter = 0;
+                        var info = "";
+                        for (var cmd in commands) {
+                        	len++;
+                        }
 			bot.sendMessage(msg.author,"Available Commands:", function(){
 				for(var cmd in commands) {
-					var info = ">" + cmd;
+					counter++;
+					info += ">" + cmd;
 					var usage = commands[cmd].usage;
 					if(usage){
 						info += " " + usage;
 					}
 					var description = commands[cmd].description;
 					if(description){
-						info += "\n\t" + description;
+						info += "\n\t" + description + "\n\n";
 					}
-					bot.sendMessage(msg.author,info);
+					
+					if (counter == 75) {
+						len = len - counter;
+						counter = 0;
+						if ((info.length > 1900) && (info.length < 2000)) {
+					                bot.sendMessage(msg.author,info);
+						} else {
+							// Do smth
+						}
+					} else if ((len < 75) && (counter == len)) {
+						bot.sendMessage(msg.author.info);
+					}
 				}
 			});
         }
