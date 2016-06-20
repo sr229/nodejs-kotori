@@ -365,341 +365,341 @@ console.log(`Logging in...\nReady to begin\nin ${bot.readyTime}`);
             if (suffix) { 
                  var users = msg.channel.server.members.getAll("username", suffix); 
               if (users.length == 1) { 
-356                     bot.sendMessage(msg.channel, `The id of ${users[0]} is ${users[0].id}`) 
-357                 } else if (users.length > 1) { 
-358                     var response = "multiple users found:"; 
-359                     for (var i = 0; i < users.length; i++) { 
-360                         var user = users[i]; 
-361                         response += `\nThe id of ${user} is ${user.id}`; 
-362                     } 
-363                     bot.sendMessage(msg.channel, response); 
-364                 } else { 
-365                     bot.sendMessage(msg.channel, `No user ${suffix} found!`); 
-366                 } 
-367             } else { 
-368                 bot.sendMessage(msg.channel, `The id of ${msg.author} is ${msg.author.id}`); 
-369             } 
-370         } 
-371     }, 
-372     "eval": { 
-373         usage: "<command>", 
-374         description: 'Executes arbitrary javascript in the bot process. User must have "eval" permission', 
-375         //cleared out the eval perm required code for now. 
-376         process: function (bot, msg, suffix) { 
-377             bot.sendMessage(msg.channel, eval(suffix, bot)); 
-378 
+                     bot.sendMessage(msg.channel, `The id of ${users[0]} is ${users[0].id}`) 
+                 } else if (users.length > 1) { 
+                     var response = "multiple users found:"; 
+                     for (var i = 0; i < users.length; i++) { 
+                         var user = users[i]; 
+                         response += `\nThe id of ${user} is ${user.id}`; 
+                     } 
+                     bot.sendMessage(msg.channel, response); 
+                 } else { 
+                     bot.sendMessage(msg.channel, `No user ${suffix} found!`); 
+                 } 
+             } else { 
+                 bot.sendMessage(msg.channel, `The id of ${msg.author} is ${msg.author.id}`); 
+             } 
+         } 
+     }, 
+     "eval": { 
+         usage: "<command>", 
+         description: 'Executes arbitrary javascript in the bot process. User must have "eval" permission', 
+         //cleared out the eval perm required code for now. 
+         process: function (bot, msg, suffix) { 
+             bot.sendMessage(msg.channel, eval(suffix, bot)); 
  
-379         } 
-380     }, 
-381     "topic": { 
-382         usage: "[topic]", 
-383         description: 'Sets the topic for the channel. No topic removes the topic.', 
-384         process: function (bot, msg, suffix) { 
-385             bot.setChannelTopic(msg.channel, suffix); 
-386         } 
-387     }, 
-388     "roll": { 
-389         usage: "[# of sides] or [# of dice]d[# of sides]( + [# of dice]d[# of sides] + ...)", 
-390         description: "roll one die with x sides, or multiple dice using d20 syntax. Default value is 10", 
-391         process: function (bot, msg, suffix) { 
-392             if (suffix.split("d").length <= 1) { 
-393                 bot.sendMessage(msg.channel, `${msg.author} rolled a ${d20.roll(suffix || "10")}`); 
-394             } else if (suffix.split("d").length > 1) { 
-395                 var eachDie = suffix.split("+"); 
-396                 var passing = 0; 
-397                 for (var i = 0; i < eachDie.length; i++) { 
-398                     if (eachDie[i].split("d")[0] < 50) { 
-399                         passing += 1; 
-400                     }; 
-401                 } 
-402                 if (passing == eachDie.length) { 
-403                     bot.sendMessage(msg.channel, `${msg.author} rolled a ${d20.roll(suffix)}`); 
-404                 } else { 
-405                     bot.sendMessage(msg.channel, `${msg.author} tried to roll too many dice at once!`); 
-406                 } 
-407             } 
-408         } 
-409     }, 
-410     "msg": { 
-411         usage: "<user> <message to leave user>", 
-412         description: "leaves a message for a user the next time they come online", 
-413         process: function (bot, msg, suffix) { 
-414             var args = suffix.split(' '); 
-415             var user = args.shift(); 
-416             var message = args.join(' '); 
-417             if (user.startsWith('<@')) { 
-418                 user = user.substr(2, user.length - 3); 
-419             } 
-420             var target = msg.channel.server.members.get("id", user); 
-421             if (!target) { 
-422                 target = msg.channel.server.members.get("username", user); 
-423             } 
-424             messagebox[target.id] = { 
-425                 channel: msg.channel.id, 
-426                 content: `${target}, ${msg.author} said: ${message}` 
-427             }; 
-428             updateMessagebox(); 
-429             bot.sendMessage(msg.channel, "message saved.") 
-430         } 
-431     }, 
-432     "beam": { 
-433         usage: "<stream>", 
-434         description: "checks if the given Beam stream is online", 
-435         process: function (bot, msg, suffix) { 
-436             request(`https://beam.pro/api/v1/channels/${suffix}`, (err, res, body) => { 
-437                 var data = JSON.parse(body); 
-438                 if (data.user) { 
-439                     bot.sendMessage(msg.channel, `${suffix} is online, playing\n${data.type.name}\n${data.online}\n${data.thumbnail.url}`) 
-440                 } else { 
-441                     bot.sendMessage(msg.channel, `${suffix} is offline`) 
-442                 } 
-443             }); 
-444         } 
-445     }, 
-446     "twitch": { 
-447         usage: "<stream>", 
-448         description: "checks if the given stream is online", 
-449         process: function (bot, msg, suffix) { 
-450             request(`https://api.twitch.tv/kraken/streams/${suffix}`, (err, res, body) => { 
-451                 var stream = JSON.parse(body); 
-452                 if (stream.stream) { 
-453                     bot.sendMessage(msg.channel, `${suffix} is online, playing ${stream.stream.game}\n${stream.stream.channel.status}\n${stream.stream.preview.large}`); 
-454                 } else { 
-455                     bot.sendMessage(msg.channel, `${suffix} is offline`) 
-456                 } 
-457             }); 
-458         } 
-459     }, 
-460     "xkcd": { 
-461         usage: "[comic number]", 
-462         description: "displays a given xkcd comic number (or the latest if nothing specified", 
-463         process: function (bot, msg, suffix) { 
-464             var url = "http://xkcd.com/"; 
-465             if (suffix != "") url += `${suffix}/`; 
-466             url += "info.0.json"; 
-467             request(url, (err, res, body) => { 
-468                 try { 
-469                     var comic = JSON.parse(body); 
-470                     bot.sendMessage(msg.channel, `${comic.title}\n${comic.img}`, () => bot.sendMessage(msg.channel, comic.alt)); 
-471                 } catch (e) { 
-472                     bot.sendMessage(msg.channel, `Couldn't fetch an XKCD for ${suffix}`); 
-473                 } 
-474             }); 
-475         } 
-476     }, 
-477     "watchtogether": { 
-478         usage: "[video url (Youtube, Vimeo)", 
-479         description: "Generate a watch2gether room with your video to watch with your little friends!", 
-480         process: function (bot, msg, suffix) { 
-481             var watch2getherUrl = "https://www.watch2gether.com/go#"; 
-482             bot.sendMessage(msg.channel, "watch2gether link", () => bot.sendMessage(msg.channel, `${watch2getherUrl}${suffix}`)); 
-483         } 
-484     }, 
-485     "uptime": { 
-486         usage: "", 
-487         description: "returns the amount of time since the bot started", 
-488         process: function (bot, msg, suffix) { 
-489             var now = Date.now(); 
-490             var msec = now - startTime; 
-491             console.log(`Uptime is ${msec} milliseconds`); 
-492             var days = Math.floor(msec / 1000 / 60 / 60 / 24); 
-493             msec -= days * 1000 * 60 * 60 * 24; 
-494             var hours = Math.floor(msec / 1000 / 60 / 60); 
-495             msec -= hours * 1000 * 60 * 60; 
-496             var mins = Math.floor(msec / 1000 / 60); 
-497             msec -= mins * 1000 * 60; 
-498             var secs = Math.floor(msec / 1000); 
-499             var timestr = ""; 
-500             if (days > 0) { 
-501                 timestr += days + " days "; 
-502             } 
-503             if (hours > 0) { 
-504                 timestr += hours + " hours "; 
-505             } 
-506             if (mins > 0) { 
-507                 timestr += mins + " minutes "; 
-508             } 
-509             if (secs > 0) { 
-510                 timestr += secs + " seconds "; 
-511             } 
-512             bot.sendMessage(msg.channel, `Uptime: ${timestr}`); 
-513         } 
-514     } 
-515 }; 
-516 try { 
-517     var rssFeeds = JSON.parse(fs.readFileSync("./rss.json")); 
-518 
  
-519     function loadFeeds() { 
-520         for (var cmd in rssFeeds) { 
-521             commands[cmd] = { 
-522                 usage: "[count]", 
-523                 description: rssFeeds[cmd].description, 
-524                 url: rssFeeds[cmd].url, 
-525                 process: function (bot, msg, suffix) { 
-526                     var count = 1; 
-527                     if (suffix != null && suffix != "" && !isNaN(suffix)) { 
-528                         count = suffix; 
-529                     } 
-530                     rssfeed(bot, msg, this.url, count, false); 
-531                 } 
-532             }; 
-533         } 
-534     } 
-535 } catch (e) { 
-536     console.log(`Couldn't load rss.json. See rss.json.example if you want rss feed commands. error: ${e}`); 
-537 } 
-538 
+         } 
+     }, 
+     "topic": { 
+         usage: "[topic]", 
+         description: 'Sets the topic for the channel. No topic removes the topic.', 
+         process: function (bot, msg, suffix) { 
+             bot.setChannelTopic(msg.channel, suffix); 
+         } 
+     }, 
+     "roll": { 
+         usage: "[# of sides] or [# of dice]d[# of sides]( + [# of dice]d[# of sides] + ...)", 
+         description: "roll one die with x sides, or multiple dice using d20 syntax. Default value is 10", 
+         process: function (bot, msg, suffix) { 
+             if (suffix.split("d").length <= 1) { 
+                 bot.sendMessage(msg.channel, `${msg.author} rolled a ${d20.roll(suffix || "10")}`); 
+             } else if (suffix.split("d").length > 1) { 
+                 var eachDie = suffix.split("+"); 
+                 var passing = 0; 
+                 for (var i = 0; i < eachDie.length; i++) { 
+                     if (eachDie[i].split("d")[0] < 50) { 
+                         passing += 1; 
+                     }; 
+                 } 
+                 if (passing == eachDie.length) { 
+                     bot.sendMessage(msg.channel, `${msg.author} rolled a ${d20.roll(suffix)}`); 
+                 } else { 
+                     bot.sendMessage(msg.channel, `${msg.author} tried to roll too many dice at once!`); 
+                 } 
+             } 
+         } 
+     }, 
+     "msg": { 
+         usage: "<user> <message to leave user>", 
+         description: "leaves a message for a user the next time they come online", 
+         process: function (bot, msg, suffix) { 
+             var args = suffix.split(' '); 
+             var user = args.shift(); 
+             var message = args.join(' '); 
+             if (user.startsWith('<@')) { 
+                 user = user.substr(2, user.length - 3); 
+             } 
+             var target = msg.channel.server.members.get("id", user); 
+             if (!target) { 
+                 target = msg.channel.server.members.get("username", user); 
+             } 
+             messagebox[target.id] = { 
+                 channel: msg.channel.id, 
+                 content: `${target}, ${msg.author} said: ${message}` 
+             }; 
+             updateMessagebox(); 
+             bot.sendMessage(msg.channel, "message saved.") 
+         } 
+     }, 
+     "beam": { 
+         usage: "<stream>", 
+         description: "checks if the given Beam stream is online", 
+         process: function (bot, msg, suffix) { 
+             request(`https://beam.pro/api/v1/channels/${suffix}`, (err, res, body) => { 
+                 var data = JSON.parse(body); 
+                 if (data.user) { 
+                     bot.sendMessage(msg.channel, `${suffix} is online, playing\n${data.type.name}\n${data.online}\n${data.thumbnail.url}`) 
+                 } else { 
+                     bot.sendMessage(msg.channel, `${suffix} is offline`) 
+                 } 
+             }); 
+         } 
+     }, 
+     "twitch": { 
+         usage: "<stream>", 
+         description: "checks if the given stream is online", 
+         process: function (bot, msg, suffix) { 
+             request(`https://api.twitch.tv/kraken/streams/${suffix}`, (err, res, body) => { 
+                 var stream = JSON.parse(body); 
+                 if (stream.stream) { 
+                     bot.sendMessage(msg.channel, `${suffix} is online, playing ${stream.stream.game}\n${stream.stream.channel.status}\n${stream.stream.preview.large}`); 
+                 } else { 
+                     bot.sendMessage(msg.channel, `${suffix} is offline`) 
+                 } 
+             }); 
+         } 
+     }, 
+     "xkcd": { 
+         usage: "[comic number]", 
+         description: "displays a given xkcd comic number (or the latest if nothing specified", 
+         process: function (bot, msg, suffix) { 
+             var url = "http://xkcd.com/"; 
+             if (suffix != "") url += `${suffix}/`; 
+             url += "info.0.json"; 
+             request(url, (err, res, body) => { 
+                 try { 
+                     var comic = JSON.parse(body); 
+                     bot.sendMessage(msg.channel, `${comic.title}\n${comic.img}`, () => bot.sendMessage(msg.channel, comic.alt)); 
+                 } catch (e) { 
+                     bot.sendMessage(msg.channel, `Couldn't fetch an XKCD for ${suffix}`); 
+                 } 
+             }); 
+         } 
+     }, 
+     "watchtogether": { 
+         usage: "[video url (Youtube, Vimeo)", 
+         description: "Generate a watch2gether room with your video to watch with your little friends!", 
+         process: function (bot, msg, suffix) { 
+             var watch2getherUrl = "https://www.watch2gether.com/go#"; 
+             bot.sendMessage(msg.channel, "watch2gether link", () => bot.sendMessage(msg.channel, `${watch2getherUrl}${suffix}`)); 
+         } 
+     }, 
+     "uptime": { 
+         usage: "", 
+         description: "returns the amount of time since the bot started", 
+         process: function (bot, msg, suffix) { 
+             var now = Date.now(); 
+             var msec = now - startTime; 
+             console.log(`Uptime is ${msec} milliseconds`); 
+             var days = Math.floor(msec / 1000 / 60 / 60 / 24); 
+             msec -= days * 1000 * 60 * 60 * 24; 
+             var hours = Math.floor(msec / 1000 / 60 / 60); 
+             msec -= hours * 1000 * 60 * 60; 
+             var mins = Math.floor(msec / 1000 / 60); 
+             msec -= mins * 1000 * 60; 
+             var secs = Math.floor(msec / 1000); 
+             var timestr = ""; 
+             if (days > 0) { 
+                 timestr += days + " days "; 
+             } 
+             if (hours > 0) { 
+                 timestr += hours + " hours "; 
+             } 
+             if (mins > 0) { 
+                 timestr += mins + " minutes "; 
+             } 
+             if (secs > 0) { 
+                 timestr += secs + " seconds "; 
+             } 
+             bot.sendMessage(msg.channel, `Uptime: ${timestr}`); 
+         } 
+     } 
+ }; 
+ try { 
+     var rssFeeds = JSON.parse(fs.readFileSync("./rss.json")); 
  
-539 try { 
-540     aliases = JSON.parse(fs.readFileSync("./alias.json")); 
-541 } catch (e) { 
-542     //No aliases defined 
-543     aliases = {}; 
-544 } 
-545 
  
-546 try { 
-547     messagebox = JSON.parse(fs.readFileSync("./messagebox.json")); 
-548 } catch (e) { 
-549     //no stored messages 
-550     messagebox = {}; 
-551 } 
-552 
+     function loadFeeds() { 
+         for (var cmd in rssFeeds) { 
+             commands[cmd] = { 
+                 usage: "[count]", 
+                 description: rssFeeds[cmd].description, 
+                 url: rssFeeds[cmd].url, 
+                 process: function (bot, msg, suffix) { 
+                     var count = 1; 
+                     if (suffix != null && suffix != "" && !isNaN(suffix)) { 
+                         count = suffix; 
+                     } 
+                     rssfeed(bot, msg, this.url, count, false); 
+                 } 
+             }; 
+         } 
+     } 
+ } catch (e) { 
+     console.log(`Couldn't load rss.json. See rss.json.example if you want rss feed commands. error: ${e}`); 
+ } 
  
-553 function updateMessagebox() { 
-554     fs.writeFile("./messagebox.json", JSON.stringify(messagebox, null, 2), null); 
-555 } 
-556 
  
-557 function rssfeed(bot, msg, url, count, full) { 
-558     var FeedParser = require('feedparser'); 
-559     var feedparser = new FeedParser(); 
-560     request(url).pipe(feedparser); 
-561     feedparser.on('error', error => bot.sendMessage(msg.channel, `failed reading feed: ${error}`)); 
-562     var shown = 0; 
-563     feedparser.on('readable', function () { 
-564         var stream = this; 
-565         shown += 1 
-566         if (shown > count) { 
-567             return; 
-568         } 
-569         var item = stream.read(); 
-570         bot.sendMessage(msg.channel, item.title + " - " + item.link, function () { 
-571             if (full === true) { 
-572                 var text = htmlToText.fromString(item.description, { 
-573                     wordwrap: false, 
-574                     ignoreHref: true 
-575                 }); 
-576                 bot.sendMessage(msg.channel, text); 
-577             } 
-578         }); 
-579         stream.alreadyRead = true; 
-580     }); 
-581 } 
-582 
+ try { 
+     aliases = JSON.parse(fs.readFileSync("./alias.json")); 
+ } catch (e) { 
+     //No aliases defined 
+     aliases = {}; 
+ } 
  
-583 
  
-584 ; 
-585 
+ try { 
+     messagebox = JSON.parse(fs.readFileSync("./messagebox.json")); 
+ } catch (e) { 
+     //no stored messages 
+     messagebox = {}; 
+ } 
  
-586 bot.on("ready", () => { 
-587     loadFeeds(); 
-588     console.log(`Ready to begin! Serving in ${bot.channels.length} channels`); 
-589     plugins.init(); 
-590 }); 
-591 
  
-592 bot.on("disconnected", () => { 
-593     console.log("Disconnected!"); 
-594     process.exit(1); //exit node.js with an error 
-595 }); 
-596 
+ function updateMessagebox() { 
+     fs.writeFile("./messagebox.json", JSON.stringify(messagebox, null, 2), null); 
+ } 
  
-597 bot.on("message", msg => { 
-598     //check if message is a command 
-599     if (msg.author.id !== bot.user.id) return; 
-600 
  
-601     if ((msg.content[0] === '>' || msg.content.indexOf(bot.user.mention()) == 0)) { 
-602         console.log(`treating ${msg.content} from ${msg.author} as command`); 
-603         var cmdTxt = msg.content.split(" ")[0].substring(">".length, msg.content.length); 
-604         var suffix = msg.content.substring(cmdTxt.length + 2); //add one for the ! and one for the space 
-605         if (msg.content.indexOf(bot.user.mention()) == 0) { 
-606             try { 
-607                 cmdTxt = msg.content.split(" ")[1]; 
-608                 suffix = msg.content.substring(bot.user.mention().length + cmdTxt.length + 2); 
-609             } catch (e) { //no command 
-610                 bot.sendMessage(msg.channel, "Yes?"); 
-611                 return; 
-612             } 
-613         } 
-614         alias = aliases[cmdTxt]; 
-615         if (alias) { 
-616             console.log(`${cmdTxt} is an alias, constructed command is ${alias.join(" ")} ${suffix}`); 
-617             cmdTxt = alias[0]; 
-618             suffix = `${alias[1]} ${suffix}`; 
-619         } 
-621       	var cmd = commands[cmdTxt]; 
-645         if(cmdTxt === "help"){ 
-646             //help is special since it iterates over the other commands 
-647                         var len = 0; 
-648                         var counter = 0; 
-649                         var info = ""; 
-650                         for (var cmd in commands) { 
-651                         	len++; 
-652                         } 
-653 			bot.sendMessage(msg.author,"Available Commands:", function(){ 
-654 				for(var cmd in commands) { 
-655 					counter++; 
-656 					info += ">" + cmd; 
-657 					var usage = commands[cmd].usage; 
-658 					if(usage){ 
-659 						info += " " + usage; 
-660 					} 
-661 					var description = commands[cmd].description; 
-662 					if(description){ 
-663 						info += "\n\t" + description + "\n\n"; 
-664 					} 
-665 					 
-666 					if (counter == 75) { 
-667 						len = len - counter; 
-668 						counter = 0; 
-669 						if ((info.length > 1900) && (info.length < 2000)) { 
-670 					                bot.sendMessage(msg.author,info); 
-671 						} else { 
-672 							// Do smth 
-673 						} 
-674 					} else if ((len < 75) && (counter == len)) { 
-675 						bot.sendMessage(msg.author.info); 
-676 					} 
-677 				} 
-678 			}); 
-679         } 
-634         } else if (cmd) { 
-635             try { 
-636                 cmd.process(bot, msg, suffix); 
-637             } catch (e) { 
-638                 if (Config.debug) bot.sendMessage(msg.channel, `command ${cmdTxt} failed:\n${e.stack}`); 
-639             } 
-640         } else { 
-641             if (Config.respondToInvalid) bot.sendMessage(msg.channel, `Invalid command ${cmdTxt}`); 
-642         } 
-643     } else { 
-644         //message isn't a command or is from us 
-645         if (msg.author != bot.user && msg.isMentioned(bot.user)) { 
-646             bot.sendMessage(msg.channel, `${msg.author}, you called?`); 
-647         } 
-648     } 
-649 }); 
-650 
+ function rssfeed(bot, msg, url, count, full) { 
+     var FeedParser = require('feedparser'); 
+     var feedparser = new FeedParser(); 
+     request(url).pipe(feedparser); 
+     feedparser.on('error', error => bot.sendMessage(msg.channel, `failed reading feed: ${error}`)); 
+     var shown = 0; 
+     feedparser.on('readable', function () { 
+         var stream = this; 
+         shown += 1 
+         if (shown > count) { 
+             return; 
+         } 
+         var item = stream.read(); 
+         bot.sendMessage(msg.channel, item.title + " - " + item.link, function () { 
+             if (full === true) { 
+                 var text = htmlToText.fromString(item.description, { 
+                     wordwrap: false, 
+                     ignoreHref: true 
+                 }); 
+                 bot.sendMessage(msg.channel, text); 
+             } 
+         }); 
+         stream.alreadyRead = true; 
+     }); 
+ } 
  
-651 
  
-652 
  
-653 
+ 
+ ; 
+ 
+ 
+ bot.on("ready", () => { 
+     loadFeeds(); 
+     console.log(`Ready to begin! Serving in ${bot.channels.length} channels`); 
+     plugins.init(); 
+ }); 
+ 
+ 
+ bot.on("disconnected", () => { 
+     console.log("Disconnected!"); 
+     process.exit(1); //exit node.js with an error 
+ }); 
+ 
+ 
+ bot.on("message", msg => { 
+     //check if message is a command 
+     if (msg.author.id !== bot.user.id) return; 
+ 
+ 
+     if ((msg.content[0] === '>' || msg.content.indexOf(bot.user.mention()) == 0)) { 
+         console.log(`treating ${msg.content} from ${msg.author} as command`); 
+         var cmdTxt = msg.content.split(" ")[0].substring(">".length, msg.content.length); 
+         var suffix = msg.content.substring(cmdTxt.length + 2); //add one for the ! and one for the space 
+         if (msg.content.indexOf(bot.user.mention()) == 0) { 
+             try { 
+                 cmdTxt = msg.content.split(" ")[1]; 
+                 suffix = msg.content.substring(bot.user.mention().length + cmdTxt.length + 2); 
+             } catch (e) { //no command 
+                 bot.sendMessage(msg.channel, "Yes?"); 
+                 return; 
+             } 
+         } 
+         alias = aliases[cmdTxt]; 
+         if (alias) { 
+             console.log(`${cmdTxt} is an alias, constructed command is ${alias.join(" ")} ${suffix}`); 
+             cmdTxt = alias[0]; 
+             suffix = `${alias[1]} ${suffix}`; 
+         } 
+       	var cmd = commands[cmdTxt]; 
+         if(cmdTxt === "help"){ 
+             //help is special since it iterates over the other commands 
+                         var len = 0; 
+                         var counter = 0; 
+                         var info = ""; 
+                         for (var cmd in commands) { 
+                         	len++; 
+                         } 
+ 			bot.sendMessage(msg.author,"Available Commands:", function(){ 
+ 				for(var cmd in commands) { 
+ 					counter++; 
+ 					info += ">" + cmd; 
+				var usage = commands[cmd].usage; 
+ 					if(usage){ 
+ 						info += " " + usage; 
+ 					} 
+ 					var description = commands[cmd].description; 
+ 					if(description){ 
+ 						info += "\n\t" + description + "\n\n"; 
+ 					} 
+ 					 
+ 					if (counter == 75) { 
+ 						len = len - counter; 
+ 						counter = 0; 
+ 						if ((info.length > 1900) && (info.length < 2000)) { 
+ 					                bot.sendMessage(msg.author,info); 
+ 						} else { 
+ 							// Do smth 
+ 						} 
+ 					} else if ((len < 75) && (counter == len)) { 
+ 						bot.sendMessage(msg.author.info); 
+ 					} 
+ 				} 
+ 			}); 
+         } 
+         } else if (cmd) { 
+             try { 
+                 cmd.process(bot, msg, suffix); 
+             } catch (e) { 
+                 if (Config.debug) bot.sendMessage(msg.channel, `command ${cmdTxt} failed:\n${e.stack}`); 
+             } 
+         } else { 
+             if (Config.respondToInvalid) bot.sendMessage(msg.channel, `Invalid command ${cmdTxt}`); 
+         } 
+     } else { 
+         //message isn't a command or is from us 
+         if (msg.author != bot.user && msg.isMentioned(bot.user)) { 
+             bot.sendMessage(msg.channel, `${msg.author}, you called?`); 
+         } 
+     } 
+ }); 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  
 654 function get_gif(tags, func) { 
 655     //limit=1 will only return 1 gif 
