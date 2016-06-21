@@ -8,4 +8,4 @@ you need a Bot Token so it can connect through Discord. get one at http://discor
 
 EVERYTHING!!!
 
-if you have any feature you want to add for that bot, simply do a merge request in master and I will review it if it's good enough to be merged on the master.
+if you have any feature you want to add for that bot, simply do a merge request in master and I will review it if it's good enough to be merged on daily.
