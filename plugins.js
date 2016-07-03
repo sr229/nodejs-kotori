@@ -23,17 +23,6 @@ exports.init = function(){
     preload_plugins();
 };
 
-function createNpmDependenciesArray (packageFilePath) {
-    var p = require(packageFilePath);
-    if (!p.dependencies) return [];
-    var deps = [];
-    for (var mod in p.dependencies) {
-        deps.push(mod + "@" + p.dependencies[mod]);
-    }
-
-    return deps;
-}
-
 function preload_plugins(){
     var deps = [];
     var npm = require("npm");
