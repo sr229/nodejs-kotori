@@ -47,14 +47,6 @@ var bot = new Discord.Client();
 //logs that the bot is logging and is ready in a amount of miliseconds
 console.log(`Logging in...\nReady to begin\nin ${bot.readyTime}`);
 
-//load config data
-try {
-    Config = JSON.parse(fs.readFileSync("./config.json"));
-} catch (e) { //no config file, use defaults
-    Config.debug = false;
-    Config.respondToInvalid = false;
-}
-
 
 //https://api.imgflip.com/popular_meme_ids
 //this doesn't work currently. Fix soon?
