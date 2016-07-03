@@ -15,9 +15,6 @@ var request = require("request"),
         "url": "http://api.giphy.com/v1/gifs/random",
         "permission": ["NORMAL"]
     }, cleverbot = require("cleverbot-node");
-    aliases,
-    messagebox;
-
 try {
     Discord = require("discord.js");
 } catch (e) {
