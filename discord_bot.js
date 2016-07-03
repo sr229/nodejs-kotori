@@ -1,4 +1,4 @@
-var Discord, yt, youtube_plugin, wa, wolfram_plugin,;
+var Discord, yt, youtube_plugin, wa, wolfram_plugin;
 var request = require("request"),
 //commented out plugins.js since it creates too much errors.
 // plugins = require("./plugins.js"),
