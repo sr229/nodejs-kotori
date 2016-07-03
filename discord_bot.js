@@ -47,31 +47,6 @@ var bot = new Discord.Client();
 //logs that the bot is logging and is ready in a amount of miliseconds
 console.log(`Logging in...\nReady to begin\nin ${bot.readyTime}`);
 
-
-// Load custom permissions
-//its required to have permissions.json if you want the bot to
-//be able to run Eval.
-try {
-    Permissions = JSON.parse(fs.readFileSync("./permissions.json"));
-} catch (e) {}
-Permissions.checkPermission = (user, permission) => {
-    try {
-        var allowed = false;
-        try {
-            if (Permissions.global.hasOwnProperty(permission)) {
-                allowed = Permissions.global[permission] == true;
-            }
-        } catch (e) {}
-        try {
-            if (Permissions.users[user.id].hasOwnProperty(permission)) {
-                allowed = Permissions.users[user.id][permission] == true;
-            }
-        } catch (e) {}
-        return allowed;
-    } catch (e) {}
-    return false;
-}
-
 //load config data
 try {
     Config = JSON.parse(fs.readFileSync("./config.json"));
