@@ -562,9 +562,7 @@ function rssfeed(bot, msg, url, count, full) {
 ;
 
 bot.on("ready", () => {
-    loadFeeds();
     console.log(`Ready to begin! Serving in ${bot.channels.length} channels`);
-    plugins.init();
 });
 
 bot.on("disconnected", () => {
