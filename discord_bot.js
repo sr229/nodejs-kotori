@@ -1,18 +1,20 @@
-var Discord, yt, youtube_plugin, wa, wolfram_plugin;
+var Discord, yt, youtube_plugin, wa, wolfram_plugin,;
 var request = require("request"),
-    plugins = require("./plugins.js"),
+//commented out plugins.js since it creates too much errors.
+// plugins = require("./plugins.js"),
     fs = require("fs"),
     qs = require("querystring"),
     d20 = require("d20"),
     request = require("request"),
     htmlToText = require('html-to-text'),
+    cleverbot = require("cleverbot-node"),
     startTime = Date.now(),
     giphy_config = {
         "api_key": "dc6zaTOxFJmzC",
         "rating": "r",
         "url": "http://api.giphy.com/v1/gifs/random",
         "permission": ["NORMAL"]
-    },
+    }, cleverbot = require("cleverbot-node");
     Permissions,
     Config,
     aliases,
@@ -478,8 +480,22 @@ var commands = {
             }
             bot.sendMessage(msg.channel, `Uptime: ${timestr}`);
         }
-    }
-};
+    },
+"talk": {
+        usage : "<message>",
+	description : "Talk directly to the bot",
+	process : function(bot,msg, suffix) {
+			var conv = suffix.split(" ");
+			talkbot.write(conv, function (response) {
+			bot.sendMessage(msg.channel, response.message)
+             talkbot = new cleverbot;
+             cleverbot.prepare(function(){});
+
+			})
+	}
+}
+}
+
 try {
     var rssFeeds = JSON.parse(fs.readFileSync("./rss.json"));
 
