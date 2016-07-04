@@ -102,7 +102,7 @@ var commands = {
     "gif": {
         usage: "<image tags>",
         description: "returns a random gif matching the tags passed",
-        process: function (bot, msg, suffix) {
+        process: function(bot, msg, suffix) {
             var tags = suffix.split(" ");
             get_gif(tags, id => {
                 if (typeof id !== "undefined") {
@@ -115,37 +115,37 @@ var commands = {
     },
     "ping": {
         description: "responds pong, useful for checking if bot is alive",
-        process: function (bot, msg) {
+        process: function(bot, msg) {
             bot.sendMessage(msg.channel, `${msg.author} pong!`);
         }
     },
     "servers": {
         description: "lists servers bot is connected to",
-        process: function (bot, msg) {
+        process: function(bot, msg) {
             bot.sendMessage(msg.channel, bot.servers);
         }
     },
     "channels": {
         description: "lists channels bot is connected to",
-        process: function (bot, msg) {
+        process: function(bot, msg) {
             bot.sendMessage(msg.channel, bot.channels);
         }
     },
     "myid": {
         description: "returns the user id of the sender",
-        process: function (bot, msg) {
+        process: function(bot, msg) {
             bot.sendMessage(msg.channel, msg.author.id);
         }
     },
     "idle": {
         description: "sets bot status to idle",
-        process: function (bot, msg) {
+        process: function(bot, msg) {
             bot.setStatusIdle();
         }
     },
     "online": {
         description: "sets bot status to online",
-        process: function (bot, msg) {
+        process: function(bot, msg) {
             bot.setStatusOnline();
         }
     },
@@ -153,27 +153,27 @@ var commands = {
     "youtube": {
         usage: "<video tags>",
         description: "gets youtube video matching tags",
-        process: function (bot, msg, suffix) {
+        process: function(bot, msg, suffix) {
             youtube_plugin.respond(suffix, msg.channel, bot);
         }
     },
     "say": {
         usage: "<message>",
         description: "bot says message",
-        process: function (bot, msg, suffix) {
+        process: function(bot, msg, suffix) {
             bot.sendMessage(msg.channel, suffix);
         }
     },
 
     "meme": {
         usage: 'meme "top text" "bottom text"',
-        process: function (bot, msg, suffix) {
+        process: function(bot, msg, suffix) {
             var tags = msg.content.split('"');
             var memetype = tags[0].split(" ")[1];
             //bot.sendMessage(msg.channel,tags);
             var Imgflipper = require("imgflipper");
             var imgflipper = new Imgflipper(AuthDetails.imgflip_username, AuthDetails.imgflip_password);
-            imgflipper.generateMeme(meme[memetype], tags[1] ? tags[1] : "", tags[3] ? tags[3] : "", function (err, image) {
+            imgflipper.generateMeme(meme[memetype], tags[1] ? tags[1] : "", tags[3] ? tags[3] : "", function(err, image) {
                 //console.log(arguments);
                 bot.sendMessage(msg.channel, image);
             });
@@ -181,7 +181,7 @@ var commands = {
     },
     "memehelp": { //TODO: this should be handled by !help
         description: "returns available memes for !meme",
-        process: function (bot, msg) {
+        process: function(bot, msg) {
             var str = "Currently available memes:\n"
             for (var m in meme) {
                 str += m + "\n"
@@ -192,14 +192,14 @@ var commands = {
     "log": {
         usage: "<log message>",
         description: "logs message to bot console",
-        process: function (bot, msg, suffix) {
+        process: function(bot, msg, suffix) {
             console.log(msg.content);
         }
     },
     "wiki": {
         usage: "<search terms>",
         description: "returns the summary of the first matching search result from Wikipedia",
-        process: function (bot, msg, suffix) {
+        process: function(bot, msg, suffix) {
             var query = suffix;
             if (!query) {
                 bot.sendMessage(msg.channel, "usage: !wiki search terms");
@@ -226,7 +226,7 @@ var commands = {
     "create": {
         usage: "<channel name>",
         description: "creates a new text channel with the given name.",
-        process: function (bot, msg, suffix) {
+        process: function(bot, msg, suffix) {
             bot.createChannel(msg.channel.server, suffix, "text").then(channel => {
                 bot.sendMessage(msg.channel, `created ${channel}`);
             }).catch(error => bot.sendMessage(msg.channel, `failed to create channel: ${error}`));
@@ -235,7 +235,7 @@ var commands = {
     "voice": {
         usage: "<channel name>",
         description: "creates a new voice channel with the give name.",
-        process: function (bot, msg, suffix) {
+        process: function(bot, msg, suffix) {
             bot.createChannel(msg.channel.server, suffix, "voice").then(channel => {
                 bot.sendMessage(msg.channel, `created ${channel.id}`);
                 console.log(`created ${channel}`);
@@ -245,7 +245,7 @@ var commands = {
     "delete": {
         usage: "<channel name>",
         description: "deletes the specified channel",
-        process: function (bot, msg, suffix) {
+        process: function(bot, msg, suffix) {
             var channel = bot.channels.get("id", suffix);
             if (suffix.startsWith('<#')) {
                 channel = bot.channels.get("id", suffix.substr(2, suffix.length - 3));
@@ -277,12 +277,12 @@ var commands = {
     },
     "stock": {
         usage: "<stock to fetch>",
-        process: function (bot, msg, suffix) {
+        process: function(bot, msg, suffix) {
             var yahooFinance = require('yahoo-finance');
             yahooFinance.snapshot({
                 symbol: suffix,
                 fields: ['s', 'n', 'd1', 'l1', 'y', 'r'],
-            }, function (error, snapshot) {
+            }, function(error, snapshot) {
                 if (error) {
                     bot.sendMessage(msg.channel, `couldn't get stock: ${error}`);
                 } else {
@@ -295,7 +295,7 @@ var commands = {
     "wolfram": {
         usage: "<search terms>",
         description: "gives results from wolframalpha using search terms",
-        process: function (bot, msg, suffix) {
+        process: function(bot, msg, suffix) {
             if (!suffix) {
                 bot.sendMessage(msg.channel, "Usage: !wolfram <search terms> (Ex. !wolfram integrate 4x)");
             }
@@ -304,7 +304,7 @@ var commands = {
     },
     "rss": {
         description: "lists available rss feeds",
-        process: function (bot, msg, suffix) {
+        process: function(bot, msg, suffix) {
             /*var args = suffix.split(" ");
             var count = args.shift();
             var url = args.join(" ");
@@ -319,7 +319,7 @@ var commands = {
     "reddit": {
         usage: "[subreddit]",
         description: "Returns the top post on reddit. Can optionally pass a subreddit to get the top psot there instead",
-        process: function (bot, msg, suffix) {
+        process: function(bot, msg, suffix) {
             var path = "/.rss"
             if (suffix) {
                 path = `/r/${suffix}${path}`;
@@ -330,7 +330,7 @@ var commands = {
     "alias": {
         usage: "<name> <actual command>",
         description: "Creates command aliases. Useful for making simple commands on the fly",
-        process: function (bot, msg, suffix) {
+        process: function(bot, msg, suffix) {
             var args = suffix.split(" ");
             var name = args.shift();
             if (!name) {
@@ -349,7 +349,7 @@ var commands = {
     "userid": {
         usage: "[user to get id of]",
         description: "Returns the unique id of a user. This is useful for permissions.",
-        process: function (bot, msg, suffix) {
+        process: function(bot, msg, suffix) {
             if (suffix) {
                 var users = msg.channel.server.members.getAll("username", suffix);
                 if (users.length == 1) {
@@ -373,7 +373,7 @@ var commands = {
         usage: "<command>",
         description: 'Executes arbitrary javascript in the bot process. User must have "eval" permission',
         //cleared out the eval perm required code for now.
-        process: function (bot, msg, suffix) {
+        process: function(bot, msg, suffix) {
             bot.sendMessage(msg.channel, eval(suffix, bot));
 
         }
@@ -381,14 +381,14 @@ var commands = {
     "topic": {
         usage: "[topic]",
         description: 'Sets the topic for the channel. No topic removes the topic.',
-        process: function (bot, msg, suffix) {
+        process: function(bot, msg, suffix) {
             bot.setChannelTopic(msg.channel, suffix);
         }
     },
     "roll": {
         usage: "[# of sides] or [# of dice]d[# of sides]( + [# of dice]d[# of sides] + ...)",
         description: "roll one die with x sides, or multiple dice using d20 syntax. Default value is 10",
-        process: function (bot, msg, suffix) {
+        process: function(bot, msg, suffix) {
             if (suffix.split("d").length <= 1) {
                 bot.sendMessage(msg.channel, `${msg.author} rolled a ${d20.roll(suffix || "10")}`);
             } else if (suffix.split("d").length > 1) {
@@ -410,7 +410,7 @@ var commands = {
     "msg": {
         usage: "<user> <message to leave user>",
         description: "leaves a message for a user the next time they come online",
-        process: function (bot, msg, suffix) {
+        process: function(bot, msg, suffix) {
             var args = suffix.split(' ');
             var user = args.shift();
             var message = args.join(' ');
@@ -432,7 +432,7 @@ var commands = {
     "beam": {
         usage: "<stream>",
         description: "checks if the given Beam stream is online",
-        process: function (bot, msg, suffix) {
+        process: function(bot, msg, suffix) {
             request(`https://beam.pro/api/v1/channels/${suffix}`, (err, res, body) => {
                 var data = JSON.parse(body);
                 if (data.user) {
@@ -446,7 +446,7 @@ var commands = {
     "twitch": {
         usage: "<stream>",
         description: "checks if the given stream is online",
-        process: function (bot, msg, suffix) {
+        process: function(bot, msg, suffix) {
             request(`https://api.twitch.tv/kraken/streams/${suffix}`, (err, res, body) => {
                 var stream = JSON.parse(body);
                 if (stream.stream) {
@@ -460,7 +460,7 @@ var commands = {
     "xkcd": {
         usage: "[comic number]",
         description: "displays a given xkcd comic number (or the latest if nothing specified",
-        process: function (bot, msg, suffix) {
+        process: function(bot, msg, suffix) {
             var url = "http://xkcd.com/";
             if (suffix != "") url += `${suffix}/`;
             url += "info.0.json";
@@ -477,7 +477,7 @@ var commands = {
     "watchtogether": {
         usage: "[video url (Youtube, Vimeo)",
         description: "Generate a watch2gether room with your video to watch with your little friends!",
-        process: function (bot, msg, suffix) {
+        process: function(bot, msg, suffix) {
             var watch2getherUrl = "https://www.watch2gether.com/go#";
             bot.sendMessage(msg.channel, "watch2gether link", () => bot.sendMessage(msg.channel, `${watch2getherUrl}${suffix}`));
         }
@@ -485,7 +485,7 @@ var commands = {
     "uptime": {
         usage: "",
         description: "returns the amount of time since the bot started",
-        process: function (bot, msg, suffix) {
+        process: function(bot, msg, suffix) {
             var now = Date.now();
             var msec = now - startTime;
             console.log(`Uptime is ${msec} milliseconds`);
@@ -522,7 +522,7 @@ try {
                 usage: "[count]",
                 description: rssFeeds[cmd].description,
                 url: rssFeeds[cmd].url,
-                process: function (bot, msg, suffix) {
+                process: function(bot, msg, suffix) {
                     var count = 1;
                     if (suffix != null && suffix != "" && !isNaN(suffix)) {
                         count = suffix;
@@ -560,14 +560,14 @@ function rssfeed(bot, msg, url, count, full) {
     request(url).pipe(feedparser);
     feedparser.on('error', error => bot.sendMessage(msg.channel, `failed reading feed: ${error}`));
     var shown = 0;
-    feedparser.on('readable', function () {
+    feedparser.on('readable', function() {
         var stream = this;
         shown += 1
         if (shown > count) {
             return;
         }
         var item = stream.read();
-        bot.sendMessage(msg.channel, item.title + " - " + item.link, function () {
+        bot.sendMessage(msg.channel, item.title + " - " + item.link, function() {
             if (full === true) {
                 var text = htmlToText.fromString(item.description, {
                     wordwrap: false,
@@ -596,8 +596,7 @@ bot.on("disconnected", () => {
 
 bot.on("message", msg => {
     //check if message is a command
-    if (msg.author.id !== bot.user.id) return;
-
+    if (msg.author.bot || msg.author.equals(bot.user)) return
     if ((msg.content[0] === '>' || msg.content.indexOf(bot.user.mention()) == 0)) {
         console.log(`treating ${msg.content} from ${msg.author} as command`);
         var cmdTxt = msg.content.split(" ")[0].substring(">".length, msg.content.length);
@@ -619,18 +618,23 @@ bot.on("message", msg => {
         }
         var cmd = commands[cmdTxt];
         if (cmdTxt === "help") {
-            //help is special since it iterates over the other commands
-            bot.sendMessage(msg.author, "Available Commands:", () => {
-                var info = `>${cmd}`;
-                for (var cmd in commands) {
-                    var usage = commands[cmd].usage;
-                    if (usage) {
-                        info += ` ${usage}`;
-                    }
-                    info += "\n";
-                }
-                bot.sendMessage(msg.author, info);
-            });
+            var array = []
+            var cmdNames = Object.getOwnPropertyNames(commands).sort()
+            for (var c of cmdNames) {
+                if (typeof commands.c !== 'object') return
+                array.push(`>${c} ${(commands[c].usage) ? '- ' + commands[c].usage : ''}`)
+            }
+            var str = array.join('\n')
+            if (str.length > 2000) {
+                // We'll split this into 10 array parts each
+                var str1 = array.slice(0, 10)
+                var str2 = array.slice(11, array.length)
+                bot.sendMessage(msg.author, str1).then(() => {
+                    bot.sendMessage(msg.author, str2)
+                })
+            } else {
+                bot.sendMessage(msg.author, str)
+            }
         } else if (cmd) {
             try {
                 cmd.process(bot, msg, suffix);
