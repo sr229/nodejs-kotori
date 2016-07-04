@@ -647,7 +647,7 @@ bot.on("message", msg => {
     } else {
         //message isn't a command or is from us
         if (msg.author != bot.user && msg.isMentioned(bot.user)) {
-            bot.sendMessage(msg.channel, `${msg.author}, you called?`);
+            bot.sendMessage(msg.channel, `${msg.author}, yes, Onodera?`);
         }
     }
 });
