@@ -12,6 +12,7 @@ exports.faq_addentry = {
     process: function addEntry(q, a) {
         index = faq.run("SELECT * FROM faq").length
         faq.run("INSERT INTO faq VALUES (" + index + "," + q + "," + a + ")")
+        bot.SendMessage(msg.author + "entry added! Congrats, you're Loctav level 2!");
     }
 }
 exports.faq_delentry = {
@@ -24,7 +25,7 @@ exports.faq_delentry = {
 }
 
 exports.faq = {
-    usage: "<q>",
+    usage: "<index>",
     description: "when in doubt.",
     // not sure how mart implemented this
     //but I have to make sure bot prints the file.
