@@ -33,5 +33,6 @@ exports.faq = {
         result = faq.run("SELECT q,a FROM faq WHERE q=" + query)
         console.log("Q: " + result[0].q)
         console.log("A: " + result[0].a)
+    bot.sendMessage(msg.channel , result[0].a )
     }
 }
