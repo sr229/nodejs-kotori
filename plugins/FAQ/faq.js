@@ -20,7 +20,7 @@ exports.faq_delentry = {
     process: function removeEntry(index) {
         faq.run("DELETE FROM faq WHERE index=" + index)
         if (faq.run("DELETE FROM faq WHERE index=" + index)) {
-            bot.SendMessage(msg.author + ", FAQ entry deleted.Happy?")
+            bot.SendMessage(msg.author + ", FAQ entry deleted.Happy?");
         }
     }
 }
