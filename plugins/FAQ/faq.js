@@ -14,13 +14,16 @@ exports.faq_addentry = {
   faq.run("INSERT INTO faq VALUES ("+index+","+q+","+a+")")
  }
 }
- exports.faq_delentry = {
-     usage : "<index>",
-     description : "delete a FAQ entry",
-     process :function removeEntry(index){
-  faq.run("DELETE FROM faq WHERE index="+index)
+exports.faq_delentry = {
+    usage: "<index>",
+    description: "delete a FAQ entry",
+    process: function removeEntry(index) {
+        faq.run("DELETE FROM faq WHERE index=" + index)
+        if (faq.run("DELETE FROM faq WHERE index=" + index)) {
+            bot.SendMessage(msg.author + ", FAQ entry deleted.Happy?")
+        }
+    }
 }
- }
 exports.faq = {
 usage : "<q>",
 description : "when in doubt.",
