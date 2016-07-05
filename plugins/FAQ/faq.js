@@ -7,7 +7,7 @@ exports.commands = [
 var sqlite3 = require('sqlite3').verbose();
 var faq = new sqlite3.Database('faq.db');
 exports.faq_addentry = {
-    usage : "<keyword> <description>",
+    usage : "<q> <a>",
     description : "add a FAQ entry",
     process:function  addEntry (q, a){
   index = faq.run("SELECT * FROM faq").length
