@@ -18,13 +18,13 @@ exports.faq_delentry = {
     usage: "<index>",
     description: "delete a FAQ entry",
     process: function removeEntry(index) {
-        if (faq.run("DELETE FROM faq WHERE index=" + index)) {
-            bot.SendMessage(msg.author + ", FAQ entry deleted.Happy?");
-        }
+        faq.run("DELETE FROM faq WHERE index=" + index)
+        bot.SendMessage(msg.author + ", FAQ entry deleted.Happy?");
     }
 }
+
 exports.faq = {
-    usage: "<index>",
+    usage: "<q>",
     description: "when in doubt.",
     // not sure how mart implemented this
     //but I have to make sure bot prints the file.
