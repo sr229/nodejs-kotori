@@ -15,7 +15,7 @@ exports.faq_addentry = {
  }
 }
  exports.faq_delentry = {
-     usage : "<q>",
+     usage : "<index>",
      description : "delete a FAQ entry",
      process :function removeEntry(index){
   faq.run("DELETE FROM faq WHERE index="+index)
