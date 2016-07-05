@@ -15,14 +15,14 @@ exports.faq_addentry = {
  }
 }
  exports.faq_delentry = {
-     usage : "<keyword>",
+     usage : "<q>",
      description : "delete a FAQ entry",
      process :function removeEntry(index){
   faq.run("DELETE FROM faq WHERE index="+index)
 }
  }
 exports.faq = {
-usage : "<keyword>",
+usage : "<q>",
 description : "when in doubt.",
 // not sure how mart implemented this
 //but I have to make sure bot prints the file.
