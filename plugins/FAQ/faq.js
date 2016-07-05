@@ -24,7 +24,7 @@ exports.faq_delentry = {
     }
 }
 exports.faq = {
-    usage: "<q>",
+    usage: "<index>",
     description: "when in doubt.",
     // not sure how mart implemented this
     //but I have to make sure bot prints the file.
