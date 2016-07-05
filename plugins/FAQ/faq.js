@@ -3,6 +3,8 @@ exports.commands = [
     "faq_addentry",
     "faq_delentry",
 ]
+// code by martmists
+//implemented and additional code by onii-chan Capuccino.
 
 var sqlite3 = require('sqlite3').verbose();
 var faq = new sqlite3.Database('faq.db');
@@ -33,6 +35,6 @@ exports.faq = {
         result = faq.run("SELECT q,a FROM faq WHERE q=" + query)
         console.log("Q: " + result[0].q)
         console.log("A: " + result[0].a)
-    bot.sendMessage(msg.channel , result[0].a )
+    bot.sendMessage(msg.channel , result[0].a );
     }
 }
