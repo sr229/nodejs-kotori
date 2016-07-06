@@ -48,39 +48,6 @@ var bot = new Discord.Client();
 console.log(`Logging in...\nReady to begin\nin ${bot.readyTime}`);
 
 
-// Load custom permissions
-//its required to have permissions.json if you want the bot to
-//be able to run Eval.
-try {
-    Permissions = JSON.parse(fs.readFileSync("./permissions.json"));
-} catch (e) {}
-Permissions.checkPermission = (user, permission) => {
-    try {
-        var allowed = false;
-        try {
-            if (Permissions.global.hasOwnProperty(permission)) {
-                allowed = Permissions.global[permission] == true;
-            }
-        } catch (e) {}
-        try {
-            if (Permissions.users[user.id].hasOwnProperty(permission)) {
-                allowed = Permissions.users[user.id][permission] == true;
-            }
-        } catch (e) {}
-        return allowed;
-    } catch (e) {}
-    return false;
-}
-
-//load config data
-try {
-    Config = JSON.parse(fs.readFileSync("./config.json"));
-} catch (e) { //no config file, use defaults
-    Config.debug = false;
-    Config.respondToInvalid = false;
-}
-
-
 //https://api.imgflip.com/popular_meme_ids
 //this doesn't work currently. Fix soon?
 var meme = {
