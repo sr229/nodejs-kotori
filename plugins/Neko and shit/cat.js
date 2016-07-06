@@ -17,4 +17,4 @@ exports.cat = {
 		bot.sendMessage(msg.channel, meow);
 
         }
-}
+    }
