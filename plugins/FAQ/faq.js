@@ -32,7 +32,7 @@ exports.faq = {
     // not sure how mart implemented this
     //but I have to make sure bot prints the file.
     process: function getEntry(query) {
-        result = faq.run("SELECT q,a FROM faq WHERE q=" + query)
+      result = faq.run("SELECT q,a FROM faq WHERE q LIKE '%" + query + "%'")
         console.log("Q: " + result[0].q)
         console.log("A: " + result[0].a)
     bot.sendMessage(msg.channel , result[0].a );
