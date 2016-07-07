@@ -1,6 +1,8 @@
 
 exports.commands = [
-    "cat"
+    "cat",
+    "meow",
+    "nyaa",
 ]
 //'tis a bloddy cat generator you cuck.
 var request = require("request");
