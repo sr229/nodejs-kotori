@@ -1,0 +1,6 @@
+{
+  "main": "cat.js",
+  "dependencies":{
+    "request": "2.72.0"
+  }
+}
