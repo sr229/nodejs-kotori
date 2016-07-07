@@ -1,9 +1,13 @@
 {
-  "name": "NodeJS Kotori",
-  "version": "2016.06.12-cuttingedge",
+  "name": "nodejs-kotori",
+  "version": "null",
   "description": "Bot for Discord app",
   "readme": "README.md",
-  "maintainers": [],
+  "maintainers": [
+    "martmists",
+    "SteamingMutt",
+    "acdenisSK",
+    ],
   "author": "sr229",
   "repository": {
     "type": "git",
