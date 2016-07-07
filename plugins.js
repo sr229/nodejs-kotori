@@ -10,19 +10,6 @@ function getDirectories(srcpath) {
 var plugin_folders;
 var plugin_directory;
 var exec_dir;
-try { //try loading plugins from a non standalone install first
-    plugin_directory = "./plugins/";
-    plugin_folders = getDirectories(plugin_directory);
-} catch (e) { //load paths for an Electrify install
-    exec_dir = path.dirname(process.execPath) + "/resources/default_app/"; //need this to change node prefix for npm installs
-    plugin_directory = path.dirname(process.execPath) + "/resources/default_app/plugins/";
-    plugin_folders = getDirectories(plugin_directory);
-}
-
-exports.init = function() {
-    preload_plugins();
-};
-
 function createNpmDependenciesArray(packageFilePath) {
     var p = require(packageFilePath);
     if (!p.dependencies) return [];
