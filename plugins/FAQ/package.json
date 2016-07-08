@@ -1,0 +1,6 @@
+{
+  "main": "faq.js",
+  "dependencies": {
+    "sqlite3": ">=2.58.0"
+  }
+}
