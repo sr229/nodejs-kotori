@@ -480,28 +480,6 @@ var commands = {
         }
     }
 };
-try {
-    var rssFeeds = JSON.parse(fs.readFileSync("./rss.json"));
-
-    function loadFeeds() {
-        for (var cmd in rssFeeds) {
-            commands[cmd] = {
-                usage: "[count]",
-                description: rssFeeds[cmd].description,
-                url: rssFeeds[cmd].url,
-                process: function(bot, msg, suffix) {
-                    var count = 1;
-                    if (suffix != null && suffix != "" && !isNaN(suffix)) {
-                        count = suffix;
-                    }
-                    rssfeed(bot, msg, this.url, count, false);
-                }
-            };
-        }
-    }
-} catch (e) {
-    console.log(`Couldn't load rss.json. See rss.json.example if you want rss feed commands. error: ${e}`);
-}
 
 try {
     aliases = JSON.parse(fs.readFileSync("./alias.json"));
@@ -521,37 +499,7 @@ function updateMessagebox() {
     fs.writeFile("./messagebox.json", JSON.stringify(messagebox, null, 2), null);
 }
 
-function rssfeed(bot, msg, url, count, full) {
-    var FeedParser = require('feedparser');
-    var feedparser = new FeedParser();
-    request(url).pipe(feedparser);
-    feedparser.on('error', error => bot.sendMessage(msg.channel, `failed reading feed: ${error}`));
-    var shown = 0;
-    feedparser.on('readable', function() {
-        var stream = this;
-        shown += 1
-        if (shown > count) {
-            return;
-        }
-        var item = stream.read();
-        bot.sendMessage(msg.channel, item.title + " - " + item.link, function() {
-            if (full === true) {
-                var text = htmlToText.fromString(item.description, {
-                    wordwrap: false,
-                    ignoreHref: true
-                });
-                bot.sendMessage(msg.channel, text);
-            }
-        });
-        stream.alreadyRead = true;
-    });
-}
-
-
-;
-
 bot.on("ready", () => {
-    loadFeeds();
     console.log(`Ready to begin! Serving in ${bot.channels.length} channels`);
     plugins.init();
 });
