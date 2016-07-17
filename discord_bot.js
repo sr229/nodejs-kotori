@@ -41,9 +41,9 @@ try {
     console.log(`couldn't load wolfram plugin!\n${e.stack}`);
 }
 
-var bot = new Discord.Client(
+var bot = new Discord.Client({
     autoReconnect: true
-    );
+});
 
 
 
