@@ -41,7 +41,10 @@ try {
     console.log(`couldn't load wolfram plugin!\n${e.stack}`);
 }
 
-var bot = new Discord.Client();
+var bot = new Discord.Client(
+    autoReconnect: true
+    );
+
 
 
 //logs that the bot is logging and is ready in a amount of miliseconds
