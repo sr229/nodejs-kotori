@@ -2,7 +2,7 @@ exports.commands = [
     "faq",
     "faq.addentry",
     "faq.delentry",
-]
+];
 // code by martmists
 //implemented and additional code by onii-chan Capuccino.
 
