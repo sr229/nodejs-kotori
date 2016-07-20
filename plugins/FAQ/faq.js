@@ -1,14 +1,14 @@
 exports.commands = [
     "faq",
-    "faq_addentry",
-    "faq_delentry",
+    "faq.addentry",
+    "faq.delentry",
 ]
 // code by martmists
 //implemented and additional code by onii-chan Capuccino.
 
 var sqlite3 = require('sqlite3').verbose();
 var faq = new sqlite3.Database('faq.db');
-exports.faq_addentry = {
+exports.faq.addentry = {
     usage: "<q> <a>",
     description: "add a FAQ entry",
     process: function addEntry(q, a) {
@@ -17,7 +17,7 @@ exports.faq_addentry = {
         bot.SendMessage(msg.author + "entry added! Congrats, you're Loctav level 2!");
     }
 }
-exports.faq_delentry = {
+exports.faq.delentry = {
     usage: "<index>",
     description: "delete a FAQ entry",
     process: function removeEntry(index) {
