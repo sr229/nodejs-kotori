@@ -15,7 +15,7 @@ exports.talk = {
             bot.sendMessage(msg.channel, response.message)
 						//added a option to just mention the bot to test it.
 						//we can deprecate "talk" after the latter has been proven to work.
-            if (msg.author != bot.user && msg.isMentioned(bot.user)) {
+             (msg.author != bot.user && msg.isMentioned(bot.user)) {
                 bot.sendMessage(msg.channel, `${msg.author},`, response.message);
             }
         })
