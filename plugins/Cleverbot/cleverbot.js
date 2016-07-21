@@ -13,11 +13,11 @@ exports.talk = {
         var conv = suffix.split(" ");
         talkbot.write(conv, function(response) {
             bot.sendMessage(msg.channel, response.message)
-						//added a option to just mention the bot to test it.
-						//we can deprecate "talk" after the latter has been proven to work.
-             (msg.author != bot.user && msg.isMentioned(bot.user)) {
-                bot.sendMessage(msg.channel, `${msg.author},`, response.message);
-            }
+                //added a option to just mention the bot to test it.
+                //we can deprecate "talk" after the latter has been proven to work.
+                (msg.author != bot.user && msg.isMentioned(bot.user)) {
+                    bot.sendMessage(msg.channel, `$ {msg.author},`, response.message);
+                }
         })
     }
 }
