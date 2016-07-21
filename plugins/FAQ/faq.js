@@ -42,7 +42,7 @@ exports.faq_addentry = {
             description: "when in doubt.",
             // not sure how mart implemented this
             //but I have to make sure bot prints the file.
-            process: function (bot, index, suffix) {
+            process: function (bot, msg, suffix) {
                 getEntry(query) {
                     result = faq.run("SELECT index,entry FROM faq WHERE index LIKE '%" + query + "%'")
                     console.log("INDEX_NAME: " + result[0].index)
