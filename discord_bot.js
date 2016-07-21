@@ -40,7 +40,7 @@ try {
 } catch (e) {
     console.log(`couldn't load wolfram plugin!\n${e.stack}`);
 }
-
+//chalda is a meme so we made the code a bit bitter-better :^)
 var bot = new Discord.Client();
 
 
@@ -83,7 +83,7 @@ var commands = {
     "ping": {
         description: "responds pong, useful for checking if bot is alive",
         process: function(bot, msg) {
-            bot.sendMessage(msg.channel, `${msg.author} pong!`);
+            bot.sendMessage(msg.channel, `${msg.author} pong!`, msg.channel.pingTime);
         }
     },
     "servers": {
@@ -551,9 +551,7 @@ function rssfeed(bot, msg, url, count, full) {
 ;
 
 bot.on("ready", () => {
-    loadFeeds();
     console.log(`Ready to begin! Serving in ${bot.channels.length} channels`);
-    plugins.init();
 });
 
 bot.on("disconnected", () => {
@@ -564,16 +562,15 @@ bot.on("disconnected", () => {
 bot.on("message", msg => {
     //check if message is a command
     if (msg.author.bot || msg.author.equals(bot.user)) return
-    if ((msg.content[0] === '>' || msg.content.indexOf(bot.user.mention()) == 0)) {
+    if ((msg.content[0] === '[' || msg.content.indexOf(bot.user.mention()) == 0)) {
         console.log(`treating ${msg.content} from ${msg.author} as command`);
-        var cmdTxt = msg.content.split(" ")[0].substring(">".length, msg.content.length);
+        var cmdTxt = msg.content.split(" ")[0].substring("[".length, msg.content.length);
         var suffix = msg.content.substring(cmdTxt.length + 2); //add one for the ! and one for the space
         if (msg.content.indexOf(bot.user.mention()) == 0) {
             try {
                 cmdTxt = msg.content.split(" ")[1];
                 suffix = msg.content.substring(bot.user.mention().length + cmdTxt.length + 2);
             } catch (e) { //no command
-                bot.sendMessage(msg.channel, "Yes?");
                 return;
             }
         }
@@ -613,9 +610,7 @@ bot.on("message", msg => {
         }
     } else {
         //message isn't a command or is from us
-        if (msg.author != bot.user && msg.isMentioned(bot.user)) {
-            bot.sendMessage(msg.channel, `${msg.author}, piggyback when?`);
-        }
+
     }
 });
 

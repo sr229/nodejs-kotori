@@ -1,19 +1,20 @@
 {
   "name": "nodejs-kotori",
-  "version": "null",
-  "description": "Bot for Discord app",
+  "version": "",
+  "description": "A simple bot made using discord.js for Discord",
   "readme": "README.md",
   "maintainers": [
+    "sr229",
     "martmists",
     "SteamingMutt",
-    "acdenisSK", 
+    "acdenisSK",
 ],
   "author": "sr229",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sr229/nodejs-kotori.git"
   },
-  "license": "GNU",
+  "license": "GPLv3",
   "dependencies": {
     "d20": "^1.4.0",
     "discord.js": "^8.0.0",
