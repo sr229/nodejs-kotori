@@ -1,6 +1,7 @@
 var Discord, yt, youtube_plugin, wa, wolfram_plugin;
 var request = require("request"),
     plugins = require("./plugins.js"),
+    //fs uses es6, let's hope the whole thing uses es6 too.
     fs = require("fs"),
     qs = require("querystring"),
     d20 = require("d20"),
