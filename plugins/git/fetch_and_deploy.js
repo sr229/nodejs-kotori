@@ -1,8 +1,7 @@
 exports.commands = [
-  "pullanddeploy"
+    "pullanddeploy"
 ]
-exports.pullanddeploy:
- {-description: "bot will perform a git pull master and restart with the new code",
+exports.pullanddeploy: {-description: "bot will perform a git pull master and restart with the new code",
     -process: function(bot, msg, suffix) {
         -bot.sendMessage(msg.channel, "fetching updates...", function(error, sentMsg) {
             -console.log("updating..."); -

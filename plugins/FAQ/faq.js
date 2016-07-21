@@ -12,9 +12,10 @@ exports.faq_addentry = {
         usage: "<q> <a>",
         description: "add a FAQ entry.Roles with Administrator only!",
         process: function(bot, msg, suffix)
-        addEntry(q, a) {
+        var args = suffix.split(" ");
+        addEntry(index, entry) {
             index = faq.run("SELECT * FROM faq").length
-            faq.run("INSERT INTO faq VALUES (" + index + "," + q + "," + a + ")")
+            faq.run("INSERT INTO faq VALUES (" + index + "," + entry "," + ")")
             bot.SendMessage(msg.author + "entry added! Congrats, you're Loctav level 2!")
             if (!msg.channel.permissionsOf(msg.author).hasPermission("Administrator")) {
                 bot.sendMessage(msg.channel, "You don't have permission to do that baka!");
@@ -40,9 +41,9 @@ exports.faq_addentry = {
                 // not sure how mart implemented this
                 //but I have to make sure bot prints the file.
                 process: function(bot, index, suffix) getEntry(query) {
-                    result = faq.run("SELECT q,a FROM faq WHERE q LIKE '%" + query + "%'")
-                    console.log("Q: " + result[0].q)
-                    console.log("A: " + result[0].a)
-                    bot.sendMessage(msg.channel, result[0].a);
+                    result = faq.run("SELECT index,entry FROM faq WHERE index LIKE '%" + query + "%'")
+                    console.log("INDEX_NAME: " + result[0].index)
+                    console.log("ENTRY: " + result[0].entry)
+                    bot.sendMessage(msg.channel, result[0].entry);
                 }
             }
