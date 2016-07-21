@@ -40,6 +40,12 @@ try {
 } catch (e) {
     console.log(`couldn't load wolfram plugin!\n${e.stack}`);
 }
+try {
+    Permissions = require("./Permissions.json");
+} catch (e) {
+    console.log(`permissions.json not found!\n${e.stack}`);
+}
+
 //chalda is a meme so we made the code a bit bitter-better :^)
 var bot = new Discord.Client();
 
