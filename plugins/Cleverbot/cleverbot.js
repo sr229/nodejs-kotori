@@ -13,7 +13,7 @@ exports.talk = {
             var conv = suffix.split(" ");
             talkbot.write(conv, function(response) {
                     bot.sendMessage(msg.channel, `$ {msg.author},`, response.message);
-                    if (msg.author != bot.user && msg.isMentioned(bot.user, suffix)) {
+                    if (msg.author != bot.user && msg.isMentioned(bot.user)) {
                         var conv = suffix.split(" ");
                         talkbot.write(conv, function(respose) {
                                 bot.sendMessage(msg.channel, `$ {msg.author},`, response.message);
