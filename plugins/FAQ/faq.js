@@ -17,7 +17,7 @@ exports.faq_addentry = {
         addEntry(index, entry) {
             index = faq.run("SELECT * FROM faq").length
             faq.run("INSERT INTO faq VALUES (" + index + "," + entry "," + ")")
-            bot.SendMessage(msg.author + "entry added! Congrats, you're Loctav level 2!")
+            bot.SendMessage(msg.author + "entry added! Congrats, you're Loctav level 2");
             if (!msg.channel.permissionsOf(msg.author).hasPermission("Administrator")) {
                 bot.sendMessage(msg.channel, "You don't have permission to do that baka!");
                 return;
