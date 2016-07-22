@@ -21,10 +21,9 @@ exports.faq_addentry = {
                 if (!msg.channel.permissionsOf(msg.author).hasPermission("Administrator")) {
                     bot.sendMessage(msg.channel, "You don't have permission to do that baka!");
                     return;
-                }
-                catch(e){
-                  console.log(`failed adding entry! ignoring\n${e.stack}`);
-                  bot.SendMessage(msg.channel, msg.author + "failed adding entry! :sob:");
+                } catch (e) {
+                    console.log(`failed adding entry! ignoring\n${e.stack}`);
+                    bot.SendMessage(msg.channel, msg.author + "failed adding entry! :sob:");
                 }
             }
         },
@@ -38,17 +37,16 @@ exports.faq_addentry = {
                     if (!msg.channel.permissionsOf(msg.author).hasPermission("Administrator")) {
                         bot.sendMessage(msg.channel, "You don't have permission to do that baka!");
                         return;
-                    }
-                    catch(e){
-                      console.log(`failed deleting entry!\n{$e.stack}`);
-                      bot.SendMessage(msg.channel, "failed to delete entry! Try again!");
+                    } catch (e) {
+                        console.log(`failed deleting entry!\n{$e.stack}`);
+                        bot.SendMessage(msg.channel, "failed to delete entry! Try again!");
                     }
                 }
             },
 
             exports.faq = {
-                usage: "<index>",
-                description: "when in doubt.",
+                usage: "<entry>",
+                description: "grabs a helpful tip!",
                 // not sure how mart implemented this
                 //but I have to make sure bot prints the file.
                 process: function(bot, msg, suffix) {
@@ -58,9 +56,9 @@ exports.faq_addentry = {
                         console.log("ENTRY: " + result[0].entry)
                         bot.sendMessage(msg.channel, result[0].entry);
                     }
-                    catch(e){
-                      console.log(`404: entry not found.\n{$e.stack}`);
-                      bot.SendMessage(msg.channel, "there's no entry about that, sorry!");
+                    catch (e) {
+                        console.log(`entry not found.\n{$e.stack}`);
+                        bot.SendMessage(msg.channel, "there's no entry about that, sorry!");
                     }
                 }
             },
