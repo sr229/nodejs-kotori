@@ -34,7 +34,7 @@ exports.pullanddeploy: {
                     });
                     npm.on("close", function(code) {
                         console.log("goodbye"); -
-                        bot.sendMessage(msg.channel, "brb!", function() {
+                        bot.sendMessage(msg.channel, "Configuring Windows Updates! Be right back!", function() {
                             bot.logout(function() {
                                 process.exit(); -
                             });
