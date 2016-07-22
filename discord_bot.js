@@ -101,13 +101,13 @@ var commands = {
     "channels": {
         description: "lists channels bot is connected to",
         process: function(bot, msg) {
-            bot.sendMessage(msg.channel, bot.channels);
+            bot.sendMessage(msg.channel, " I can run at :" + bot.channels + "channels.");
         }
     },
     "myid": {
         description: "returns the user id of the sender",
         process: function(bot, msg) {
-            bot.sendMessage(msg.channel, msg.author.id);
+            bot.sendMessage(msg.channel, "your ID is : " + msg.author.id);
         }
     },
     "idle": {
