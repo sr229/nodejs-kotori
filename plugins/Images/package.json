@@ -1,6 +1,6 @@
 {
-  "main": "images.js",
-  "dependencies": {
-    "request": ">=2.58.0"
-  }
+    "main": "images.js",
+    "dependencies": {
+        "request": ">=2.58.0"
+    }
 }
