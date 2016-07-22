@@ -5,7 +5,7 @@ exports.command = [
 exports.f {
   //wow.such command. much functionality. very navy. amaze.
     description: "pay respects.",
-    process: function(bot, msg, suffix) {
+    process: function(bot, msg) {
         bot.SendMessage(msg.channel, `${msg.author} ,` + "has paid respects.");
     }
 }
