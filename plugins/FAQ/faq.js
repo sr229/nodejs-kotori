@@ -12,7 +12,8 @@ exports.faq_addentry = {
     usage: "<q> <a>",
     description: "add a FAQ entry.Roles with Administrator only!",
     process: function (bot, msg, suffix) {
-        var args = suffix.split(" ");
+        var entry = suffix.split(" ");
+        var index = msg.content.split('"');
         addEntry(index, entry) {
             index = faq.run("SELECT * FROM faq").length
             faq.run("INSERT INTO faq VALUES (" + index + "," + entry "," + ")")
