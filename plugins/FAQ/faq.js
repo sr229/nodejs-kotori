@@ -38,7 +38,7 @@ exports.faq_addentry = {
                         bot.sendMessage(msg.channel, "You don't have permission to do that baka!");
                         return;
                     } catch (e) {
-                        console.log(`failed deleting entry!\n{$e.stack}`);
+                        console.log(`failed deleting entry! ignoring\n{$e.stack}`);
                         bot.SendMessage(msg.channel, "failed to delete entry! Try again!");
                     }
                 }
