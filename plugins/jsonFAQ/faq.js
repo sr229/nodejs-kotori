@@ -23,9 +23,7 @@ exports.faq.experm.addentr {
         updateFAQ() {
             require("fs").writefile("./message.json", JSON.stringify(index, description, ) null);
             else {
-                catch (e) {
                     bot.sendMessage(msg.channel, "failed adding entry.");
-                }
             }
         }
     },
@@ -34,8 +32,6 @@ exports.faq.experm.addentr {
         faq = JSON.parse(fs.readFileSync("./faq.json"));
         bot.sendMessage(msg.channel, entry);
         else {
-            catch (e) {
                 bot.sendMessage(msg.channel, "no entry found!");
             }
-        }
-    },
+        },

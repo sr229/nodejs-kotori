@@ -5,9 +5,9 @@ exports.commands = [
     ],
     // code by martmists
     //implemented and additional code by onii-chan Capuccino.
-var sqlite3,faq;
- sqlite3 = require('sqlite3').verbose();
- faq = new sqlite3.Database('faq.db');
+    var sqlite3, faq;
+sqlite3 = require('sqlite3').verbose();
+faq = new sqlite3.Database('faq.db');
 exports.faq_addentry = {
         usage: "<q> <a>",
         description: "add a FAQ entry.Roles with Administrator only!",
@@ -24,10 +24,10 @@ exports.faq_addentry = {
                     bot.sendMessage(msg.channel, "You don't have permission to do that baka!");
                     return;
                 } else {
-                    catch (e) {
-                        console.log(`failed adding entry! ignoring\n${e.stack}`);
-                        bot.SendMessage(msg.channel, msg.author + "failed adding entry! :sob:");
-                    }
+
+                    console.log(`failed adding entry! ignoring\n${e.stack}`);
+                    bot.SendMessage(msg.channel, msg.author + "failed adding entry! :sob:");
+
                 }
             }
         },
@@ -35,7 +35,7 @@ exports.faq_addentry = {
             usage: "<index>",
             description: "delete a FAQ entry.Roles with Administrator only!",
             process: function(bot, msg, suffix) {
-              var index = args.shift();
+                var index = args.shift();
                 removeEntry(index) {
                     faq.run("DELETE FROM faq WHERE index=" + index)
                     bot.SendMessage(msg.author + ", FAQ entry deleted.Happy?")
@@ -43,10 +43,8 @@ exports.faq_addentry = {
                         bot.sendMessage(msg.channel, "You don't have permission to do that baka!");
                         return;
                     } else {
-                        catch (e) {
-                            console.log(`failed deleting entry! ignoring\n{$e.stack}`);
-                            bot.SendMessage(msg.channel, "failed to delete entry! Try again!");
-                        }
+                        console.log(`failed deleting entry! ignoring\n{$e.stack}`);
+                        bot.SendMessage(msg.channel, "failed to delete entry! Try again!");
                     }
                 }
             },
@@ -62,11 +60,10 @@ exports.faq_addentry = {
                         console.log("INDEX_NAME: " + result[0].index)
                         console.log("ENTRY: " + result[0].entry)
                         bot.sendMessage(msg.channel, result[0].entry);
-                    } else{
-                        catch (e) {
-                            console.log(`entry not found.\n{$e.stack}`);
-                            bot.SendMessage(msg.channel, "entry not found!");
-                        }
+                    } else {
+
+                        console.log(`entry not found.\n{$e.stack}`);
+                        bot.SendMessage(msg.channel, "entry not found!");
                     }
                 }
-            }
+            },
