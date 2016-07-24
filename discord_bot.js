@@ -568,9 +568,9 @@ bot.on("disconnected", () => {
 bot.on("message", msg => {
     //check if message is a command
     if (msg.author.bot || msg.author.equals(bot.user)) return
-    if ((msg.content[0] === '-' || msg.content.indexOf(bot.user.mention()) == 0)) {
+    if ((msg.content[0] === '>' || msg.content.indexOf(bot.user.mention()) == 0)) {
         console.log(`treating ${msg.content} from ${msg.author} as command`);
-        var cmdTxt = msg.content.split(" ")[0].substring("-".length, msg.content.length);
+        var cmdTxt = msg.content.split(" ")[0].substring(" ".length, msg.content.length);
         var suffix = msg.content.substring(cmdTxt.length + 2); //add one for the ! and one for the space
         if (msg.content.indexOf(bot.user.mention()) == 0) {
             try {
@@ -612,7 +612,7 @@ bot.on("message", msg => {
                 if (Config.debug) bot.sendMessage(msg.channel, `command ${cmdTxt} failed:\n${e.stack}`);
             }
         } else {
-            if (Config.respondToInvalid) bot.sendMessage(msg.channel, `Invalid command ${cmdTxt}`);
+             bot.sendMessage(msg.channel, `Invalid command ${cmdTxt}`);
         }
     } else {
         //message isn't a command or is from us
@@ -663,4 +663,3 @@ exports.addCommand = (commandName, commandObject) => {
 exports.commandCount = () => Object.keys(commands).length;
 
 
-bot.loginWithToken("Bot Token. Get one at http://discordapp.com/developers");
