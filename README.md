@@ -1,3 +1,7 @@
+# NOTICE
+THIS REPO IS OUTDATED. We're moving all development efforts to project-snowflake.
+
+
 # nodejs-kotori
 this is the source code of my in-house Discord bot written in JS with the Discord.js library.
 forked from DiscordBot with some custom code thrown in.
