@@ -1,6 +1,4 @@
-# NOTICE
-THIS REPO IS OUTDATED. We're moving all development efforts to project-snowflake.
-
+This Repository has been superseded by [ClarityMoe/Clara](https://github.com/ClarityMoe/Clara)
 
 # nodejs-kotori
 this is the source code of my in-house Discord bot written in JS with the Discord.js library.
